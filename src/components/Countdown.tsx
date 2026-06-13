@@ -66,7 +66,7 @@ export default function Countdown({ onJoinStream }: CountdownProps) {
                 <span className={`relative inline-flex rounded-full h-2.5 w-2.5 ${timeLeft.isOver ? 'bg-emerald-500' : 'bg-red-600'}`}></span>
               </span>
               <span className="text-[10px] font-black uppercase tracking-[0.2em] text-red-650 font-mono">
-                {timeLeft.isOver ? 'Conference is Live' : 'Countdown to Ignition'}
+                {timeLeft.isOver ? 'Conference is Live' : 'Preparing for Impact'}
               </span>
             </div>
             

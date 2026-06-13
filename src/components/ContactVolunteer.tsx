@@ -247,7 +247,6 @@ export default function ContactVolunteer() {
                     >
                       <option className="bg-white text-slate-805" value="General Question">General Question</option>
                       <option className="bg-white text-slate-805" value="Visa Support Letter">Visa Support Letter</option>
-                      <option className="bg-white text-slate-805" value="Awards Help">Awards Nomination Enquiry</option>
                       <option className="bg-white text-slate-805" value="Hotel Discounts">Hotel Booking Advice</option>
                       <option className="bg-white text-slate-805" value="Volunteering">Volunteering Details</option>
                     </select>

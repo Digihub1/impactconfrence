@@ -24,11 +24,12 @@ const VOLUNTEER_ROLES = [
 export default function RegistrationModal({ isOpen, onClose, onSuccess }: RegistrationModalProps) {
   const DRAFT_STORAGE_KEY = 'AIC_REGISTRATION_DRAFT_v1';
   const [step, setStep] = useState(1);
-  const [loading, setLoading] = useState(true);
+  const [restoring, setRestoring] = useState(true);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
   const isRestoringDraftRef = useRef(false);
-
 
   // Form States
   const [attendee, setAttendee] = useState<AttendeeDetails>({
@@ -243,7 +244,7 @@ export default function RegistrationModal({ isOpen, onClose, onSuccess }: Regist
       // ignore draft restore errors
     } finally {
       isRestoringDraftRef.current = false;
-      setLoading(false);
+      setRestoring(false);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isOpen]);
@@ -261,31 +262,6 @@ export default function RegistrationModal({ isOpen, onClose, onSuccess }: Regist
     if (step === 2) return 66;
     return 100;
   }, [step]);
-
-  useEffect(() => {
-    if (!isOpen) return;
-
-    const phoneInput = document.querySelector('input[name="phone"]') as HTMLInputElement | null;
-    if (!phoneInput) return;
-
-    // Ensure required + pattern are enforced at the input element level.
-    phoneInput.required = true;
-    phoneInput.setAttribute(
-      'pattern',
-      '^[\\+]?[(]?[0-9]{3}[)]?[-\\s\\.]?[0-9]{3}[-\\s\\.]?[0-9]{4,6}$'
-    );
-
-    const onInput = () => {
-      const isValid = !phoneInput.validity.patternMismatch;
-      phoneInput.classList.toggle('border-red-500', !isValid);
-      phoneInput.classList.toggle('border-slate-200', isValid);
-      phoneInput.setCustomValidity(isValid ? '' : 'Invalid phone format.');
-    };
-
-    phoneInput.addEventListener('input', onInput);
-    return () => phoneInput.removeEventListener('input', onInput);
-  }, [isOpen]);
-
 
   const handleNext = () => {
     if (!validateStep(step)) return;
@@ -331,50 +307,62 @@ export default function RegistrationModal({ isOpen, onClose, onSuccess }: Regist
   };
 
   // Submit Handler
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!validateStep(3)) return;
+    if (!validateStep(3) || isSubmitting) return;
 
-    const utm_source = new URLSearchParams(window.location.search).get('utm_source') || undefined;
+    setIsSubmitting(true);
+    setSubmitError(null);
 
-    // Build the Registration details
-    const timestamp = Date.now();
-    const truncatedId = Math.random().toString(36).substr(2, 6).toUpperCase();
-    const ticketNo = `AIC-DALLAS-${truncatedId}`;
-    
-    const newReg: Registration = {
-      id: `reg-${timestamp}-${truncatedId}`,
-      date: new Date().toISOString(),
-      ticketNumber: ticketNo,
-      qrCodeUrl: `https://api.qrserver.com/v1/create-qr-code/?size=200x200&color=0f172a&bgcolor=f8fafc&data=${ticketNo}|${encodeURIComponent(attendee.fullName)}`,
-      attendee,
-      attendance,
-      ministry,
-      payment: {
-        ...payment,
-        cardNumber: payment.cardNumber ? `•••• •••• •••• ${payment.cardNumber.slice(-4)}` : undefined,
-        cardCvv: undefined, // Do not store CVV in raw state to follow best practices
-      },
-      status: 'Confirmed',
-      utmSource: utm_source
-    };
+    const utmSource = new URLSearchParams(window.location.search).get('utm_source') || undefined;
 
-    // Save to LocalStorage
-    const existingStr = localStorage.getItem('AIC_REGISTRATIONS');
-    const existingList: Registration[] = existingStr ? JSON.parse(existingStr) : [];
-    existingList.push(newReg);
-    localStorage.setItem('AIC_REGISTRATIONS', JSON.stringify(existingList));
+    try {
+      // Use environment variable or replace with your Deployed Web App URL
+      const scriptUrl = import.meta.env.VITE_GOOGLE_SCRIPT_URL || "YOUR_APPS_SCRIPT_WEB_APP_URL_HERE"; 
+      const response = await fetch(scriptUrl, {
+        method: 'POST',
+        mode: 'no-cors', // Apps Script requires no-cors for simple POST across domains
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify({ 
+          attendee, 
+          attendance, 
+          ministry, 
+          payment, 
+          utmSource,
+          date: new Date().toISOString() 
+        })
+      });
 
-    // Async sync to Google Sheet backend
-    fetch('/api/register', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(newReg)
-    }).catch(err => console.error('Failed to sync registration: ', err));
+      /**
+       * Note: 'no-cors' mode results in an opaque response, meaning we can't read 
+       * the JSON returned by GAS directly. For production, we use a fallback ID 
+       * generator if the response is opaque, while the GAS script handles 
+       * the correct sequential ID in the actual spreadsheet.
+       */
+      
+      // Generate a temporary ID for the UI confirmation (the Sheet will have the sequential one)
+      const officialId = `ICD-2026-TEMP-${Math.random().toString(36).substr(2, 4).toUpperCase()}`;
 
-    clearDraft();
-    setCompletedRegistration(newReg);
-    onSuccess(newReg);
+      const newReg: Registration = {
+        id: officialId,
+        date: new Date().toISOString(),
+        ticketNumber: officialId,
+        qrCodeUrl: `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${officialId}`,
+        attendee,
+        attendance,
+        ministry,
+        payment: { ...payment, cardNumber: '••••' },
+        status: 'Confirmed'
+      };
+
+      clearDraft();
+      setCompletedRegistration(newReg);
+      onSuccess(newReg);
+    } catch (err) {
+      setSubmitError("Connection failed. Please check your internet and try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
 
@@ -455,7 +443,7 @@ export default function RegistrationModal({ isOpen, onClose, onSuccess }: Regist
 
   if (!isOpen) return null;
 
-  if (loading) {
+  if (restoring) {
     return (
       <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-md">
         <div className="bg-white p-8 rounded-3xl shadow-2xl flex flex-col items-center gap-4">
@@ -518,7 +506,7 @@ export default function RegistrationModal({ isOpen, onClose, onSuccess }: Regist
           {!completedRegistration ? (
             <form onSubmit={handleSubmit} className="flex flex-col h-full">
               <div className="p-6 md:p-8 overflow-y-auto flex-1 space-y-6">
-              {/* Stepper Wizard Indicator */}
+              {/* Stepper Wizard Indicator */} {/* Add min-h-0 to allow flex item to shrink and enable scrolling */}
               <div className="flex items-start justify-between pb-6 border-b border-slate-100 gap-1 sm:gap-2">
                 {[1, 2, 3].map((s) => (
                   <React.Fragment key={s}>
@@ -551,7 +539,7 @@ export default function RegistrationModal({ isOpen, onClose, onSuccess }: Regist
 
               {/* STEP 1: ATTENDEE DETAILS */}
               {step === 1 && (
-                <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="space-y-4 font-medium">
+                <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="space-y-4 font-medium min-h-0">
                   <h3 className="text-xs font-semibold text-slate-400 uppercase tracking-widest border-b border-slate-100 pb-2 whitespace-normal leading-tight">
                     Step 1: Delegate Identity
                   </h3>
@@ -606,7 +594,11 @@ export default function RegistrationModal({ isOpen, onClose, onSuccess }: Regist
                           pattern="^[\\+]?[(]?[0-9]{3}[)]?[-\\s\\.]?[0-9]{3}[-\\s\\.]?[0-9]{4,6}$"
                           value={attendee.phone}
                           onChange={handleAttendeeChange}
-                          className="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-red-600 focus:border-transparent transition min-w-0"
+                          className={`w-full pl-10 pr-4 py-2.5 bg-slate-50 border rounded-xl text-sm text-slate-900 placeholder-slate-400 focus:outline-none transition min-w-0 ${
+                            errors.phone 
+                              ? 'border-red-500 focus:ring-red-500' 
+                              : 'border-slate-200 focus:ring-2 focus:ring-red-600 focus:border-transparent'
+                          }`}
                         />
                       </div>
                       {errors.phone && <p className="text-[10px] font-bold text-red-500 mt-1">{errors.phone}</p>}
@@ -652,7 +644,7 @@ export default function RegistrationModal({ isOpen, onClose, onSuccess }: Regist
 
               {/* STEP 2: ATTENDANCE DETAILS */}
               {step === 2 && (
-                <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="space-y-4 font-medium">
+                <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="space-y-4 font-medium min-h-0">
                   <h3 className="text-xs font-semibold text-slate-400 uppercase tracking-widest border-b border-slate-100 pb-2 whitespace-normal leading-tight">
                     Step 2: Attendance Format
                   </h3>
@@ -731,7 +723,7 @@ export default function RegistrationModal({ isOpen, onClose, onSuccess }: Regist
 
               {/* STEP 3: MINISTRY / ROLE & VOLUNTEERING */}
               {step === 3 && (
-                <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="space-y-4 font-medium">
+                <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="space-y-4 font-medium min-h-0">
                   <h3 className="text-xs font-semibold text-slate-400 uppercase tracking-widest border-b border-slate-100 pb-2 whitespace-normal leading-tight">
                     Step 3: Ministry & Community Service
                   </h3>
@@ -849,16 +841,22 @@ export default function RegistrationModal({ isOpen, onClose, onSuccess }: Regist
                 ) : (
                   <button
                     type="submit"
-                    className="flex-1 sm:flex-none px-10 py-3.5 bg-red-600 hover:bg-red-700 text-white font-bold text-xs uppercase tracking-[0.2em] rounded-xl transition duration-300 cursor-pointer select-none active:scale-97 shadow-lg shadow-red-200"
+                    disabled={isSubmitting}
+                    className="flex-1 sm:flex-none px-10 py-3.5 bg-red-600 hover:bg-red-700 disabled:bg-slate-400 text-white font-bold text-xs uppercase tracking-[0.2em] rounded-xl transition duration-300 cursor-pointer select-none active:scale-97 shadow-lg shadow-red-200 flex items-center justify-center gap-2"
                   >
-                    Complete Registration
+                    {isSubmitting ? (
+                      <><Loader2 className="w-4 h-4 animate-spin" /> Processing...</>
+                    ) : (
+                      'Complete Registration'
+                    )}
                   </button>
                 )}
+                {submitError && <p className="absolute -top-6 right-6 text-[10px] font-bold text-red-500">{submitError}</p>}
               </div>
             </form>
           ) : (
             <div className="p-6 md:p-8 overflow-y-auto flex-1 bg-white">
-            <motion.div initial={{ scale: 0.95, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} className="space-y-6">
+            <motion.div initial={{ scale: 0.95, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} className="space-y-6 min-h-0">
               
               <div className="text-center space-y-2">
                 <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/10 text-emerald-400">
@@ -949,18 +947,6 @@ export default function RegistrationModal({ isOpen, onClose, onSuccess }: Regist
                 >
                   I'm Ready! Return to Site
                 </button>
-              </div>
-
-              {/* Confirmation Email representation inside UI */}
-              <div className="p-4 rounded-2xl bg-white/5 border border-white/10 max-w-md mx-auto space-y-2 text-[11px] font-medium leading-relaxed shadow-2xl">
-                <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest block border-b border-white/5 pb-1 select-none font-mono">
-                  📧 Confirmation Email Logged (Sandbox)
-                </span>
-                <p className="text-slate-300">
-                  Hi <strong>{completedRegistration.attendee.fullName}</strong>,<br />
-                  Your entry is secured. We look forward to welcoming you at Neema Gospel Church, Dallas for Apostolic Impact 2026.
-                  Should you require immediate assistance, please contact Bishop Prof Lukas Njenga's office at <strong>Lukas@heartforthecity.co.uk</strong>.
-                </p>
               </div>
 
             </motion.div>

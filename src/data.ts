@@ -127,7 +127,7 @@ export const CONFERENCE_SCHEDULE: DaySchedule[] = [
   {
     date: "2026-09-27",
     dayLabel: "Sunday, Sept 27",
-    theme: "Apostolic Commissioning & Diaspora Awards",
+    theme: "Apostolic Commissioning & Closing Gala",
     events: [
       {
         time: "09:30 AM - 01:00 PM",
@@ -138,10 +138,10 @@ export const CONFERENCE_SCHEDULE: DaySchedule[] = [
       },
       {
         time: "06:00 PM - 09:30 PM",
-        title: "2026 General Diaspora Awards & Gala Dinner",
+        title: "2026 Conference Closing & Gala Dinner",
         speaker: "Prof Lukas Njenga & Honored Guests",
         location: "Grand Banquet Hall",
-        description: "The grand closing of AIC 2026. Recognizing outstanding diaspora leadership, continuous communal impacts, with special musical guests."
+        description: "The grand finale of AIC 2026. A formal evening of celebration, fellowship, and special musical guests to mark the successful conclusion of the conference."
       }
     ]
   }

@@ -3,23 +3,18 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
 import { motion, AnimatePresence } from 'framer-motion';
-import { Calendar, MapPin, Sparkles, Menu, X, CheckCircle2, Plane } from 'lucide-react';
+import { Calendar, MapPin, Sparkles, Menu, X, Plane } from 'lucide-react';
 
 import Countdown from './components/Countdown';
-import RegistrationModal from './components/RegistrationModal';
 import VisaSupport from './components/VisaSupport';
-import DiasporaAwards from './components/DiasporaAwards';
 import ScheduleSection from './components/ScheduleSection';
 import ContactVolunteer from './components/ContactVolunteer';
 import ErrorBoundary from './components/ErrorBoundary';
 
-
 import { SPEAKER_PROFILES, HOTELS } from './data';
-import { Registration } from './types';
-
 // Importing generated images
 import heroBg from './assets/images/conference_hero_bg_1781243521756.jpg';
 import logoImg from '../assets/images/DCI.png';
@@ -27,29 +22,10 @@ import bishopPortrait from '../assets/images/bishop_portrait 1.jpg';
 
 export default function App() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isRegModalOpen, setIsRegModalOpen] = useState(false);
 
-  useEffect(() => {
-    const link = (document.querySelector("link[rel*='icon']") || document.createElement('link')) as HTMLLinkElement;
-    link.type = 'image/x-icon';
-    link.rel = 'shortcut icon';
-    link.href = '/DCI.ico';
-    document.head.appendChild(link);
-  }, []);
-
-  
-
-  
-  // Registration success toast
-  const [showToast, setShowToast] = useState(false);
-  const [registeredName, setRegisteredName] = useState('');
-
-  const handleRegistrationSuccess = (reg: Registration) => {
-    setRegisteredName(reg.attendee.fullName);
-    setShowToast(true);
-    setTimeout(() => {
-      setShowToast(false);
-    }, 6000);
+  const googleFormUrl = 'https://forms.gle/2UqrCMvMxpFwNtcV7';
+  const handleRegisterClick = () => {
+    window.open(googleFormUrl, '_blank');
   };
 
   const navLinks = [
@@ -57,7 +33,6 @@ export default function App() {
     { href: '#speakers', label: 'Speakers' },
     { href: '#schedule', label: 'Schedule' },
     { href: '#visa', label: 'Visa Support' },
-    { href: '#awards', label: 'Diaspora Awards' },
     { href: '#travel', label: 'Travel & Venue' },
     { href: '#contact', label: 'Contact Us' }
   ];
@@ -100,8 +75,8 @@ export default function App() {
           <div className="hidden lg:flex items-center gap-6">
 
             <button
-              onClick={() => setIsRegModalOpen(true)}
-              className="px-6 py-2.5 bg-red-600 hover:bg-red-700 text-white text-[10px] font-black uppercase tracking-[0.2em] rounded-full transition duration-300 shadow-[0_4px_14px_rgba(239,68,68,0.2)] hover:shadow-[0_6px_20px_rgba(239,68,68,0.3)] cursor-pointer"
+              onClick={handleRegisterClick}
+              className="px-6 py-2.5 bg-red-600 hover:bg-red-700 text-white text-[10px] font-black uppercase tracking-[0.2em] rounded-full transition duration-300 shadow-[0_4px_14px_rgba(239,68,68,0.2)] hover:shadow-[0_6px_20px_rgba(239,68,68,0.3)] cursor-pointer active:scale-97"
             >
               Register Now
             </button>
@@ -109,8 +84,8 @@ export default function App() {
 
           {/* Hamburger Menu Icon */}
           <div className="flex items-center gap-3 lg:hidden">
-            <button
-              onClick={() => setIsRegModalOpen(true)}
+            <a
+              href={googleFormUrl} target="_blank" rel="noopener noreferrer"
               className="px-4 py-1.5 bg-red-650 text-white text-[9px] font-black uppercase tracking-[0.25em] rounded-full"
             >
               Register
@@ -146,39 +121,15 @@ export default function App() {
                   {link.label}
                 </a>
               ))}
-              <div className="pt-4 border-t border-slate-200 flex items-center justify-between gap-4">
-                <button
-                  onClick={() => { setIsMobileMenuOpen(false); setIsRegModalOpen(true); }}
+              <div className="pt-4 border-t border-slate-200 flex justify-center">
+                <a
+                  href={googleFormUrl} target="_blank" rel="noopener noreferrer"
                   className="px-6 py-2.5 bg-red-650 text-white text-[9px] font-black uppercase tracking-[0.25em] rounded-full shadow cursor-pointer"
                 >
                   Register
                 </button>
               </div>
             </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-
-      {/* SUCCESS POPUP RECEPTIVE TOAST */}
-      <AnimatePresence>
-        {showToast && (
-          <motion.div
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 50 }}
-            className="fixed bottom-6 right-6 z-50 p-5 max-w-sm bg-white border border-slate-200 rounded-3xl flex items-start gap-4 shadow-2xl backdrop-blur-md"
-          >
-            <CheckCircle2 className="w-6 h-6 text-emerald-600 shrink-0 mt-0.5" />
-            <div className="space-y-1.5">
-              <span className="text-[10px] font-black text-slate-900 uppercase tracking-[0.15em] block leading-none">Registration Success!</span>
-              <p className="text-[11px] text-slate-600 leading-normal">
-                Hi <strong>{registeredName}</strong>, your seat has been successfully reserved. All details are safely linked and synced with the team's shared Google Sheet.
-              </p>
-            </div>
-            <button onClick={() => setShowToast(false)} className="text-slate-400 hover:text-slate-650 transition duration-200">
-              <X className="w-3.5 h-3.5" />
-            </button>
           </motion.div>
         )}
       </AnimatePresence>
@@ -243,8 +194,8 @@ export default function App() {
               {/* Dynamic CTAs */}
               <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-2">
                 <button
-                  onClick={() => setIsRegModalOpen(true)}
-                  className="w-full sm:w-auto px-8 py-3.5 bg-red-600 text-white font-extrabold rounded-full text-[10px] uppercase tracking-[0.2em] shadow-[0_4px_14px_rgba(239,68,68,0.2)] hover:bg-red-700 transition duration-300 cursor-pointer active:scale-97"
+                  onClick={handleRegisterClick}
+                  className="w-full sm:w-auto px-8 py-3.5 bg-red-600 text-white font-extrabold rounded-full text-[10px] uppercase tracking-[0.2em] shadow-[0_4px_14px_rgba(239,68,68,0.2)] hover:bg-red-700 transition duration-300 cursor-pointer active:scale-97 flex items-center justify-center"
                 >
                   Register Now
                 </button>
@@ -253,12 +204,6 @@ export default function App() {
                   className="w-full sm:w-auto px-6 py-3.5 bg-white border border-slate-200 hover:border-slate-300 hover:bg-slate-50 text-slate-800 text-[10px] font-black rounded-full transition uppercase tracking-[0.2em] text-center cursor-pointer active:scale-97 shadow-sm"
                 >
                   Book Visa Support
-                </a>
-                <a
-                  href="#awards"
-                  className="w-full sm:w-auto px-6 py-3.5 bg-white border border-slate-200 hover:border-slate-300 hover:bg-slate-50 text-slate-800 text-[10px] font-black rounded-full transition uppercase tracking-[0.2em] text-center cursor-pointer active:scale-97 shadow-sm"
-                >
-                  Submit Nomination
                 </a>
               </div>
 
@@ -349,10 +294,6 @@ export default function App() {
                 <span className="w-1 h-1 rounded-full bg-red-650" />
                 <span>Consular booking queues: Active</span>
               </li>
-              <li className="flex items-center gap-2">
-                <span className="w-1 h-1 rounded-full bg-red-650" />
-                <span>Awards nominations open: Submit now</span>
-              </li>
             </ul>
           </div>
 
@@ -412,9 +353,6 @@ export default function App() {
 
       {/* VISA PREPARATION BLOCK */}
       <VisaSupport />
-
-      {/* COMMUNITY NOMINATIONS CARRIER */}
-      <DiasporaAwards />
 
       {/* VENUE MAPS & TRAVEL AND HOTELS SECTION */}
       <section id="travel" className="scroll-mt-16 py-16 bg-transparent border-t border-slate-200">
@@ -558,14 +496,6 @@ export default function App() {
 
         </div>
       </footer>
-
-      {/* REGISTRATION PROGRESSIVE WIZARD FLOW MODAL */}
-      <RegistrationModal
-
-        isOpen={isRegModalOpen}
-        onClose={() => setIsRegModalOpen(false)}
-        onSuccess={handleRegistrationSuccess}
-      />
 
 
 
