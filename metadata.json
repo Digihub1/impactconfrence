@@ -1,0 +1,6 @@
+{
+  "name": "Apostolic Impact Conference Dallas",
+  "description": "A responsive single-page microsite for Apostolic Impact Conference 2026. Featuring countdown to local start time, multi-step registration flow, external booking support for visa coaching, Diaspora Awards nomination, dynamic schedule, venue maps, and a contact/volunteer capture panel.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
