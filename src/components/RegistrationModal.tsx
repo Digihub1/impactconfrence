@@ -481,7 +481,7 @@ export default function RegistrationModal({ isOpen, onClose, onSuccess }: Regist
         <div className="flex items-center justify-between px-6 py-4 border-b border-slate-200 bg-white sticky top-0 z-20 shrink-0 font-medium">
           <div className="flex items-center gap-2">
             <Ticket className="w-5 h-5 text-red-650 animate-pulse" />
-            <h2 className="text-sm font-black text-slate-900 tracking-widest uppercase font-mono">
+            <h2 className="text-sm font-black text-slate-900 tracking-widest uppercase font-mono whitespace-normal leading-tight">
               {completedRegistration ? 'Registration Confirmed!' : 'Conference Registration'}
             </h2>
           </div>
@@ -499,7 +499,7 @@ export default function RegistrationModal({ isOpen, onClose, onSuccess }: Regist
           {!completedRegistration && (
             <div className="px-6 pt-4 pb-2 border-b border-slate-100">
               <div className="flex items-center justify-between mb-2">
-                <div className="text-[10px] font-black uppercase tracking-widest text-slate-500 font-mono">
+                <div className="text-[10px] font-black uppercase tracking-widest text-slate-500 font-mono whitespace-normal leading-tight">
                   Registration progress
                 </div>
                 <div className="text-[10px] font-black uppercase tracking-widest text-slate-700 font-mono">
@@ -519,12 +519,12 @@ export default function RegistrationModal({ isOpen, onClose, onSuccess }: Regist
             <form onSubmit={handleSubmit} className="flex flex-col h-full">
               <div className="p-6 md:p-8 overflow-y-auto flex-1 space-y-6">
               {/* Stepper Wizard Indicator */}
-              <div className="flex items-center justify-between pb-6 border-b border-slate-100">
+              <div className="flex items-start justify-between pb-6 border-b border-slate-100 gap-1 sm:gap-2">
                 {[1, 2, 3].map((s) => (
-                  <div key={s} className="flex items-center flex-1 last:flex-none font-medium">
-                    <div className="flex items-center gap-2">
+                  <React.Fragment key={s}>
+                    <div className="flex flex-col items-center gap-2 flex-1 min-w-0">
                       <div
-                        className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-black transition ${
+                        className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-black transition shrink-0 ${
                           step >= s
                             ? 'bg-red-600 text-white'
                             : 'bg-slate-100 text-slate-400 border border-slate-200'
@@ -532,28 +532,34 @@ export default function RegistrationModal({ isOpen, onClose, onSuccess }: Regist
                       >
                         {s}
                       </div>
-                      <span className="hidden sm:inline text-xs font-semibold text-slate-500 uppercase tracking-widest font-mono">
-                        {s === 1 && 'Personal'}
-                        {s === 2 && 'Attendance'}
-                        {s === 3 && 'Ministry'}
+                      <span className={`text-[8px] sm:text-[10px] font-semibold uppercase tracking-widest font-mono whitespace-normal leading-tight text-center break-words w-full px-1 ${
+                        step >= s ? 'text-slate-900' : 'text-slate-500'
+                      }`}>
+                        {s === 1 && 'Personal Information'}
+                        {s === 2 && 'Attendance Details'}
+                        {s === 3 && 'Ministry & Community Service'}
                       </span>
                     </div>
-                    {s < 3 && <div className={`flex-1 h-0.5 mx-2 ${step > s ? 'bg-red-600' : 'bg-slate-200'}`} />}
-                  </div>
+                    {s < 3 && (
+                      <div className="flex items-center h-8 flex-1">
+                        <div className={`w-full h-0.5 ${step > s ? 'bg-red-600' : 'bg-slate-200'}`} />
+                      </div>
+                    )}
+                  </React.Fragment>
                 ))}
               </div>
 
               {/* STEP 1: ATTENDEE DETAILS */}
               {step === 1 && (
                 <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="space-y-4 font-medium">
-                  <h3 className="text-xs font-semibold text-slate-400 uppercase tracking-widest border-b border-slate-100 pb-2">
+                  <h3 className="text-xs font-semibold text-slate-400 uppercase tracking-widest border-b border-slate-100 pb-2 whitespace-normal leading-tight">
                     Step 1: Delegate Identity
                   </h3>
                   
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {/* Full Name */}
-                    <div className="space-y-1">
-                      <label className="text-xs font-semibold text-slate-700 uppercase tracking-widest block font-mono">Full Name *</label>
+                    <div className="space-y-1 min-w-0">
+                      <label className="text-xs font-semibold text-slate-700 uppercase tracking-widest block font-mono whitespace-normal leading-tight break-words">Full Name *</label>
                       <div className="relative">
                         <User className="absolute left-3.5 top-3 w-4 h-4 text-slate-500" />
                         <input
@@ -562,15 +568,15 @@ export default function RegistrationModal({ isOpen, onClose, onSuccess }: Regist
                           placeholder="E.g., John Doe"
                           value={attendee.fullName}
                           onChange={handleAttendeeChange}
-                          className="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-red-600 focus:border-transparent transition"
+                          className="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-red-600 focus:border-transparent transition min-w-0"
                         />
                       </div>
                       {errors.fullName && <p className="text-[10px] font-bold text-red-500 mt-1">{errors.fullName}</p>}
                     </div>
 
                     {/* Email */}
-                    <div className="space-y-1">
-                      <label className="text-xs font-semibold text-slate-700 uppercase tracking-widest block font-mono">Email Address *</label>
+                    <div className="space-y-1 min-w-0">
+                      <label className="text-xs font-semibold text-slate-700 uppercase tracking-widest block font-mono whitespace-normal leading-tight break-words">Email Address *</label>
                       <div className="relative">
                         <Mail className="absolute left-3.5 top-3 w-4 h-4 text-slate-500" />
                         <input
@@ -579,7 +585,7 @@ export default function RegistrationModal({ isOpen, onClose, onSuccess }: Regist
                           placeholder="johndoe@example.com"
                           value={attendee.email}
                           onChange={handleAttendeeChange}
-                          className="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-red-600 focus:border-transparent transition"
+                          className="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-red-600 focus:border-transparent transition min-w-0"
                         />
                       </div>
                       {errors.email && <p className="text-[10px] font-bold text-red-500 mt-1">{errors.email}</p>}
@@ -588,8 +594,8 @@ export default function RegistrationModal({ isOpen, onClose, onSuccess }: Regist
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {/* Phone */}
-                    <div className="space-y-1">
-                      <label className="text-xs font-semibold text-slate-700 uppercase tracking-widest block font-mono">Phone number *</label>
+                    <div className="space-y-1 min-w-0">
+                      <label className="text-xs font-semibold text-slate-700 uppercase tracking-widest block font-mono whitespace-normal leading-tight break-words">Phone number *</label>
                       <div className="relative">
                         <Phone className="absolute left-3.5 top-3 w-4 h-4 text-slate-500" />
                         <input
@@ -600,22 +606,22 @@ export default function RegistrationModal({ isOpen, onClose, onSuccess }: Regist
                           pattern="^[\\+]?[(]?[0-9]{3}[)]?[-\\s\\.]?[0-9]{3}[-\\s\\.]?[0-9]{4,6}$"
                           value={attendee.phone}
                           onChange={handleAttendeeChange}
-                          className="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-red-600 focus:border-transparent transition"
+                          className="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-red-600 focus:border-transparent transition min-w-0"
                         />
                       </div>
                       {errors.phone && <p className="text-[10px] font-bold text-red-500 mt-1">{errors.phone}</p>}
                     </div>
 
                     {/* Country */}
-                    <div className="space-y-1">
-                      <label className="text-xs font-semibold text-slate-700 uppercase tracking-widest block font-mono">Country of Residence *</label>
+                    <div className="space-y-1 min-w-0">
+                      <label className="text-xs font-semibold text-slate-700 uppercase tracking-widest block font-mono whitespace-normal leading-tight break-words">Country of Residence *</label>
                       <div className="relative">
                         <Globe className="absolute left-3.5 top-3 w-4 h-4 text-slate-500 pointer-events-none" />
                         <select
                           name="country"
                           value={attendee.country}
                           onChange={handleAttendeeChange}
-                          className="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-red-600 focus:border-transparent transition appearance-none cursor-pointer"
+                          className="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-red-600 focus:border-transparent transition appearance-none cursor-pointer min-w-0"
                         >
                           {COUNTRIES.map(cty => (
                             <option className="bg-white text-slate-900" key={cty} value={cty}>{cty}</option>
@@ -626,8 +632,8 @@ export default function RegistrationModal({ isOpen, onClose, onSuccess }: Regist
                   </div>
 
                   {/* State / City */}
-                  <div className="space-y-1">
-                    <label className="text-xs font-semibold text-slate-700 uppercase tracking-widest block font-mono">State / City of Residence *</label>
+                  <div className="space-y-1 min-w-0">
+                    <label className="text-xs font-semibold text-slate-700 uppercase tracking-widest block font-mono whitespace-normal leading-tight break-words">State / City of Residence *</label>
                     <div className="relative">
                       <MapPin className="absolute left-3.5 top-3 w-4 h-4 text-slate-500" />
                       <input
@@ -636,7 +642,7 @@ export default function RegistrationModal({ isOpen, onClose, onSuccess }: Regist
                         placeholder="E.g., Dallas, Texas"
                         value={attendee.stateCity}
                         onChange={handleAttendeeChange}
-                        className="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-red-600 focus:border-transparent transition"
+                        className="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-red-600 focus:border-transparent transition min-w-0"
                       />
                     </div>
                     {errors.stateCity && <p className="text-[10px] font-bold text-red-500 mt-1">{errors.stateCity}</p>}
@@ -647,13 +653,13 @@ export default function RegistrationModal({ isOpen, onClose, onSuccess }: Regist
               {/* STEP 2: ATTENDANCE DETAILS */}
               {step === 2 && (
                 <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="space-y-4 font-medium">
-                  <h3 className="text-xs font-semibold text-slate-400 uppercase tracking-widest border-b border-slate-100 pb-2">
+                  <h3 className="text-xs font-semibold text-slate-400 uppercase tracking-widest border-b border-slate-100 pb-2 whitespace-normal leading-tight">
                     Step 2: Attendance Format
                   </h3>
 
                   {/* In-person vs Online */}
                   <div className="space-y-2">
-                    <label className="text-xs font-semibold text-slate-700 uppercase tracking-widest block font-mono">Participation Format</label>
+                    <label className="text-xs font-semibold text-slate-700 uppercase tracking-widest block font-mono whitespace-normal leading-tight break-words">Participation Format</label>
                     <div className="grid grid-cols-1 gap-4">
                       <div
                         onClick={() => handleAttendanceType('In-person')}
@@ -663,15 +669,15 @@ export default function RegistrationModal({ isOpen, onClose, onSuccess }: Regist
                             : 'bg-slate-50 border-slate-200 hover:border-slate-300 text-slate-500'
                         }`}
                       >
-                        <span className="font-bold text-sm">Join In-Person (Neema Gospel Church)</span>
-                        <span className="text-xs mt-1 opacity-80">At Neema Gospel Church, Dallas TX</span>
+                        <span className="font-bold text-sm whitespace-normal leading-tight">Join In-Person (Neema Gospel Church)</span>
+                        <span className="text-xs mt-1 opacity-80 whitespace-normal leading-tight">At Neema Gospel Church, Dallas TX</span>
                       </div>
                     </div>
                   </div>
 
                   {/* Days attending */}
                   <div className="space-y-2">
-                    <label className="text-xs font-semibold text-slate-700 uppercase tracking-widest block font-mono">Which days will you attend?</label>
+                    <label className="text-xs font-semibold text-slate-700 uppercase tracking-widest block font-mono whitespace-normal leading-tight break-words">Which days will you attend?</label>
                     <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                       {[
                         { val: '24', label: 'Sept 24 (Thur)' },
@@ -682,7 +688,7 @@ export default function RegistrationModal({ isOpen, onClose, onSuccess }: Regist
                         <div
                           key={item.val}
                           onClick={() => handleDaySelect(item.val)}
-                          className={`p-3 rounded-xl border text-center cursor-pointer text-xs font-semibold uppercase tracking-wider transition-all duration-200 ${
+                          className={`p-3 rounded-xl border text-center cursor-pointer text-xs font-semibold uppercase tracking-wider transition-all duration-200 whitespace-normal leading-tight flex items-center justify-center ${
                             attendance.days.includes(item.val)
                               ? 'bg-red-600 border-red-600 text-white shadow-md'
                               : 'bg-slate-50 border-slate-200 text-slate-600 hover:border-slate-300'
@@ -698,8 +704,8 @@ export default function RegistrationModal({ isOpen, onClose, onSuccess }: Regist
                   {/* Visa invitation letter requested */}
                   <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-2">
                     <div className="flex items-start justify-between gap-4">
-                      <div>
-                        <span className="text-xs font-bold text-slate-900 uppercase tracking-wide">US Visa Invitation Letter?</span>
+                      <div className="min-w-0">
+                        <span className="text-xs font-bold text-slate-900 uppercase tracking-wide whitespace-normal leading-tight block">US Visa Invitation Letter?</span>
                         <p className="text-xs text-slate-600 mt-0.5">
                           If you reside outside the USA and require an official church signed invitation letter to present at your embassy interview, toggle below.
                         </p>
@@ -708,7 +714,7 @@ export default function RegistrationModal({ isOpen, onClose, onSuccess }: Regist
                         type="checkbox"
                         checked={attendance.requestVisaLetter}
                         onChange={(e) => setAttendance(prev => ({ ...prev, requestVisaLetter: e.target.checked }))}
-                        className="w-5 h-5 rounded accent-red-600 border-slate-300 text-white cursor-pointer"
+                        className="w-5 h-5 rounded accent-red-600 border-slate-300 text-white cursor-pointer shrink-0"
                       />
                     </div>
                     {attendance.requestVisaLetter && (
@@ -726,14 +732,14 @@ export default function RegistrationModal({ isOpen, onClose, onSuccess }: Regist
               {/* STEP 3: MINISTRY / ROLE & VOLUNTEERING */}
               {step === 3 && (
                 <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="space-y-4 font-medium">
-                  <h3 className="text-xs font-semibold text-slate-400 uppercase tracking-widest border-b border-slate-100 pb-2">
+                  <h3 className="text-xs font-semibold text-slate-400 uppercase tracking-widest border-b border-slate-100 pb-2 whitespace-normal leading-tight">
                     Step 3: Ministry & Community Service
                   </h3>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {/* Church / Org */}
-                    <div className="space-y-1">
-                      <label className="text-xs font-semibold text-slate-700 uppercase tracking-widest block font-mono">Church / Organization Name *</label>
+                    <div className="space-y-1 min-w-0">
+                      <label className="text-xs font-semibold text-slate-700 uppercase tracking-widest block font-mono whitespace-normal leading-tight break-words">Church / Organization Name *</label>
                       <div className="relative">
                         <Building className="absolute left-3.5 top-3 w-4 h-4 text-slate-500" />
                         <input
@@ -742,15 +748,15 @@ export default function RegistrationModal({ isOpen, onClose, onSuccess }: Regist
                           placeholder="Your current home church"
                           value={ministry.organization}
                           onChange={handleMinistryChange}
-                          className="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-red-600 focus:border-transparent transition"
+                          className="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-red-600 focus:border-transparent transition min-w-0"
                         />
                       </div>
                       {errors.organization && <p className="text-[10px] font-bold text-red-500 mt-1">{errors.organization}</p>}
                     </div>
 
                     {/* Role Title */}
-                    <div className="space-y-1">
-                      <label className="text-xs font-semibold text-slate-700 uppercase tracking-widest block font-mono">Your Title / Ministry Role / Profession *</label>
+                    <div className="space-y-1 min-w-0">
+                      <label className="text-xs font-semibold text-slate-700 uppercase tracking-widest block font-mono whitespace-normal leading-tight break-words">Your Title / Ministry Role / Profession *</label>
                       <div className="relative">
                         <Briefcase className="absolute left-3.5 top-3 w-4 h-4 text-slate-500" />
                         <input
@@ -759,7 +765,7 @@ export default function RegistrationModal({ isOpen, onClose, onSuccess }: Regist
                           placeholder="E.g., Pastor, Usher, Member, CFO"
                           value={ministry.roleTitle}
                           onChange={handleMinistryChange}
-                          className="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-red-600 focus:border-transparent transition"
+                          className="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-red-600 focus:border-transparent transition min-w-0"
                         />
                       </div>
                       {errors.roleTitle && <p className="text-[10px] font-bold text-red-500 mt-1">{errors.roleTitle}</p>}
@@ -769,8 +775,8 @@ export default function RegistrationModal({ isOpen, onClose, onSuccess }: Regist
                   {/* Wants to Volunteer */}
                   <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
                     <div className="flex items-start justify-between gap-4">
-                      <div>
-                        <span className="text-xs font-bold text-slate-900 uppercase tracking-wide">Volunteer / Serve at the Conference?</span>
+                      <div className="min-w-0">
+                        <span className="text-xs font-bold text-slate-900 uppercase tracking-wide whitespace-normal leading-tight block">Volunteer / Serve at the Conference?</span>
                         <p className="text-xs text-slate-600 mt-0.5">
                           We are looking for dedicated delegates to assist in ushering, multimedia streaming, sound engineering, and safety teams.
                         </p>
@@ -779,7 +785,7 @@ export default function RegistrationModal({ isOpen, onClose, onSuccess }: Regist
                         type="checkbox"
                         checked={ministry.wantsToVolunteer}
                         onChange={(e) => setMinistry(prev => ({ ...prev, wantsToVolunteer: e.target.checked }))}
-                        className="w-5 h-5 rounded accent-red-600 border-slate-300 text-white cursor-pointer"
+                        className="w-5 h-5 rounded accent-red-600 border-slate-300 text-white cursor-pointer shrink-0"
                       />
                     </div>
 
@@ -793,7 +799,7 @@ export default function RegistrationModal({ isOpen, onClose, onSuccess }: Regist
                             return (
                               <label
                                 key={role}
-                                className={`flex items-start gap-2.5 p-2 rounded-lg cursor-pointer text-xs font-semibold select-none border transition-colors ${
+                                className={`flex items-start gap-2.5 p-2 rounded-lg cursor-pointer text-xs font-semibold select-none border transition-colors whitespace-normal leading-tight ${
                                   isChecked
                                     ? 'bg-red-50 border-red-200 text-red-700'
                                     : 'bg-slate-50 border-slate-200 text-slate-600 hover:text-slate-900'
@@ -803,7 +809,7 @@ export default function RegistrationModal({ isOpen, onClose, onSuccess }: Regist
                                   type="checkbox"
                                   checked={isChecked}
                                   onChange={() => handleVolunteerRole(role)}
-                                  className="mt-0.5 rounded accent-red-500"
+                                  className="mt-0.5 rounded accent-red-500 shrink-0"
                                 />
                                 {role}
                               </label>
