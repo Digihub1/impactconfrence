@@ -26,7 +26,7 @@ export default function AdminPanel({ isOpen, onClose }: AdminPanelProps) {
   const fetchStatus = async () => {
     setLoading(true);
     try {
-      const res = await fetch('/api/google/status');
+      const res = await fetch('/api/google-status');
       if (res.ok) {
         const data = await res.json();
         setStatus(data);
@@ -63,7 +63,7 @@ export default function AdminPanel({ isOpen, onClose }: AdminPanelProps) {
   // Begin Google OAuth redirect
   const handleConnect = async () => {
     try {
-      const res = await fetch('/api/google/auth-url');
+      const res = await fetch('/api/google-auth');
       if (res.ok) {
         const data = await res.json();
         if (data.authUrl) {
@@ -84,7 +84,10 @@ export default function AdminPanel({ isOpen, onClose }: AdminPanelProps) {
   const handleDisconnect = async () => {
     if (window.confirm('Are you sure you want to disconnect Google Sheets? Registrations will stop syncing to the Sheet.')) {
       try {
-        const res = await fetch('/api/google/disconnect', { method: 'POST' });
+        const res = await fetch('/api/google-disconnect', { 
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' }
+        });
         if (res.ok) {
           fetchStatus();
         }

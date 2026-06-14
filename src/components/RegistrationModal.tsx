@@ -317,14 +317,13 @@ export default function RegistrationModal({ isOpen, onClose, onSuccess }: Regist
     const utmSource = new URLSearchParams(window.location.search).get('utm_source') || undefined;
 
     try {
-      // Use environment variable or replace with your Deployed Web App URL
-      const scriptUrl = import.meta.env.VITE_GOOGLE_SCRIPT_URL || "YOUR_APPS_SCRIPT_WEB_APP_URL_HERE"; 
-      const response = await fetch(scriptUrl, {
+      // Point to our own Express backend instead of the Apps Script directly
+      // This ensures the data is saved to registrations.json and the linked Sheet
+      const response = await fetch('/api/register', { // Vercel handles this route automatically
         method: 'POST',
-        mode: 'no-cors', // Apps Script requires no-cors for simple POST across domains
-        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ 
-          attendee, 
+          attendee,
           attendance, 
           ministry, 
           payment, 
@@ -332,16 +331,11 @@ export default function RegistrationModal({ isOpen, onClose, onSuccess }: Regist
           date: new Date().toISOString() 
         })
       });
-
-      /**
-       * Note: 'no-cors' mode results in an opaque response, meaning we can't read 
-       * the JSON returned by GAS directly. For production, we use a fallback ID 
-       * generator if the response is opaque, while the GAS script handles 
-       * the correct sequential ID in the actual spreadsheet.
-       */
       
-      // Generate a temporary ID for the UI confirmation (the Sheet will have the sequential one)
-      const officialId = `ICD-2026-TEMP-${Math.random().toString(36).substr(2, 4).toUpperCase()}`;
+      if (!response.ok) throw new Error('Submission failed');
+      const data = await response.json();
+      
+      const officialId = data.id || `ICD-2026-${Math.random().toString(36).substr(2, 4).toUpperCase()}`;
 
       const newReg: Registration = {
         id: officialId,

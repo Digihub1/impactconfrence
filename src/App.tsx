@@ -85,11 +85,13 @@ export default function App() {
           {/* Hamburger Menu Icon */}
           <div className="flex items-center gap-3 lg:hidden">
             <a
-              href={googleFormUrl} target="_blank" rel="noopener noreferrer"
+              href={googleFormUrl}
+              target="_blank"
+              rel="noopener noreferrer"
               className="px-4 py-1.5 bg-red-650 text-white text-[9px] font-black uppercase tracking-[0.25em] rounded-full"
             >
               Register
-            </button>
+            </a>
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               className="p-1 px-2.5 bg-slate-100 border border-slate-200 rounded-full text-slate-600 hover:text-slate-900 cursor-pointer transition"
@@ -123,11 +125,13 @@ export default function App() {
               ))}
               <div className="pt-4 border-t border-slate-200 flex justify-center">
                 <a
-                  href={googleFormUrl} target="_blank" rel="noopener noreferrer"
+                  href={googleFormUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="px-6 py-2.5 bg-red-650 text-white text-[9px] font-black uppercase tracking-[0.25em] rounded-full shadow cursor-pointer"
                 >
                   Register
-                </button>
+                </a>
               </div>
             </div>
           </motion.div>
