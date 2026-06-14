@@ -3,6 +3,21 @@
   publish = "dist"
 
 [[redirects]]
+  from = "/favicon.ico"
+  to = "/favicon.ico"
+  status = 200
+
+[[redirects]]
+  from = "/favicon-32x32.png"
+  to = "/favicon-32x32.png"
+  status = 200
+
+[[redirects]]
+  from = "/apple-touch-icon.png"
+  to = "/apple-touch-icon.png"
+  status = 200
+
+[[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
