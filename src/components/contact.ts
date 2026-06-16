@@ -1,13 +1,11 @@
-import type { VercelRequest, VercelResponse } from '@vercel/node';
+// Frontend/backdrop type errors were introduced for a Vercel-only API route.
+// This file is not used by the Cloudflare Workers deployment; keep it runtime-safe.
 import { Resend } from 'resend';
 
-// This API key must be added to your Vercel Environment Variables
-const resend = new Resend(process.env.RESEND_API_KEY);
+// This API key must be added to your environment variables.
+const resend = new Resend(process.env.RESEND_API_KEY as string);
 
-export default async function handler(
-  request: VercelRequest,
-  response: VercelResponse,
-) {
+export default async function handler(request: any, response: any) {
   // Only allow POST requests
   if (request.method !== 'POST') {
     return response.status(405).json({ error: 'Method not allowed' });
@@ -29,7 +27,7 @@ export default async function handler(
     const { data, error } = await resend.emails.send({
       from: `AIC Website <${senderEmail}>`,
       to: ['jyzdigihub@gmail.com'], 
-      reply_to: email,
+replyTo: email,
       subject: `[Inquiry] ${subject}: ${name}`,
       html: `
         <div style="font-family: sans-serif; line-height: 1.5; color: #333;">

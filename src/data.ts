@@ -83,8 +83,8 @@ export const CONFERENCE_HOSTS: TeamMember[] = [
 ];
 
 import secretariatLukas from './assets/images/Bishop Prof Lukas Njenga Head of Secretariat & Marketplace Apostle.png';
-import secretariatDorcas from './assets/images/Place holder.png';
-import secretariatKevin from './assets/images/Place holder.png';
+import secretariatDorcas from './assets/images/Dorcas Karanja.png';
+import secretariatKevin from './assets/images/Kelvin Kiragu.png';
 import secretariatMichael from './assets/images/Michael Njenga.png';
 import secretariatRuth from './assets/images/Ruth Chege.png';
 

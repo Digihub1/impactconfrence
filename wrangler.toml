@@ -1,0 +1,19 @@
+name = "impactconfrence"
+main = "src/worker.ts"
+compatibility_date = "2024-12-01"
+
+# Bindings for Workers
+kv_namespaces = [
+  { binding = "GOOGLE_CONFIG_KV", id = "5ac5298789624701bf202a5afc0f6cbb", preview_id = "00000000000000000000000000000000" },
+  { binding = "REGISTRATIONS_KV", id = "63bd76dce90e4f59aeb0bffbac97692b", preview_id = "00000000000000000000000000000000" }
+]
+
+# Static asset serving for the SPA
+# After running `wrangler deploy`, ensure you upload your built files (dist/*)
+# via Wrangler assets (see next deploy step below).
+assets = { directory = "dist" }
+
+[vars]
+# You can keep non-secret defaults here if desired.
+# ADMIN_PASSCODE can also be configured as a secret in Cloudflare.
+
