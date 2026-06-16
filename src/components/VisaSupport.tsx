@@ -54,28 +54,24 @@ export default function VisaSupport() {
           
           {/* Section Left: Copy details & Booking Widget Banner */}
           <div className="bg-white border border-slate-200/80 p-6 md:p-8 rounded-3xl flex flex-col justify-between relative shadow-md">
-            <div className="space-y-4">
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-slate-100 border border-slate-200 rounded-full text-slate-800 text-[10px] font-extrabold uppercase tracking-[0.2em] font-mono">
-                <Video className="w-3.5 h-3.5 text-blue-600" /> Virtual Zoom Support
-              </div>
-              
-              <h3 className="text-lg font-black text-slate-900 uppercase tracking-tight">
-                Consular Preparation Calls
-              </h3>
-              
-              <p className="text-slate-655 text-xs leading-relaxed font-semibold">
-                Book a structured 30-minute coaching session to prepare your US Visitor Visa (B1/B2) application. Our experienced counselors provide customized prep checklists, mock questions, and document audits.
-              </p>
+             <div className="space-y-4">
+               <h3 className="text-lg font-black uppercase">Expert Consular Support</h3>
+               <p className="text-xs text-slate-500 font-bold">Connect with expert consultant <strong>Juden Freeman</strong> for custom interview preparation and application guidance.</p>
+               <div className="space-y-2 pt-4">
+                 <button className="w-full py-3 bg-red-600 text-white rounded-xl font-black uppercase text-[10px] tracking-widest">Request Invitation Letter</button>
+                 <a href="https://link.visas101.com" target="_blank" className="block w-full py-3 border border-slate-200 text-slate-800 text-center rounded-xl font-black uppercase text-[10px] tracking-widest">Visit Visa101</a>
+               </div>
+             </div>
+             <div className="mt-8 pt-8 border-t border-slate-100">
+               <h4 className="text-[10px] font-black uppercase tracking-widest mb-4">Step-by-Step Instructions</h4>
+               <ul className="text-[10px] space-y-2 font-bold text-slate-600">
+                 <li className="flex gap-2"><span>1.</span> Register for the conference and request a letter.</li>
+                 <li className="flex gap-2"><span>2.</span> Book a 1-on-1 coaching call for interview prep.</li>
+                 <li className="flex gap-2"><span>3.</span> Complete your DS-160 and attend your interview.</li>
+               </ul>
+             </div>
+          </div>
 
-              <div className="p-3 bg-red-50/50 border border-red-100 rounded-xl flex items-start gap-2 text-slate-800 font-semibold">
-                <ShieldAlert className="w-4 h-4 text-red-600 shrink-0 mt-0.5" />
-                <span className="text-[10px] leading-normal font-sans text-slate-700">
-                  <strong>DISCLAIMER:</strong> This is expert preparatory advisory coaching. This does not represent an immigration agency, and cannot guarantee visa issuance by the US Embassy.
-                </span>
-              </div>
-            </div>
-
-            {/* Direct Booking CTA Widget */}
             <div className="pt-6 border-t border-slate-100 mt-6 md:mt-12">
               <a
                 href="https://link.visas101.com/widget/bookings/1-on-1-coaching-call-30-minutes"
@@ -90,9 +86,6 @@ export default function VisaSupport() {
                 Redirects to link.visas101.com booking manager
               </span>
             </div>
-          </div>
-
-          {/* Section Right: Process and Guidelines */}
           <div className="space-y-4 flex flex-col justify-between">
             <div className="bg-white border border-slate-200/80 p-6 rounded-3xl space-y-4 shadow-md">
               <h4 className="text-xs font-black text-slate-800 uppercase tracking-widest border-b border-slate-100 pb-2 font-mono">
@@ -129,7 +122,6 @@ export default function VisaSupport() {
               </div>
             </div>
           </div>
-
         </div>
 
         {/* FAQs Accordion Block */}
@@ -169,7 +161,6 @@ export default function VisaSupport() {
             })}
           </div>
         </div>
-
       </div>
     </section>
   );

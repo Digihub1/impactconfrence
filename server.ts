@@ -3,11 +3,13 @@ import express from 'express';
 import path from 'path';
 import fs from 'fs';
 import { createServer as createViteServer } from 'vite';
+import { Resend } from 'resend';
 
 const ADMIN_PASSCODE = process.env.ADMIN_PASSCODE || 'dallas2026';
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = Number(process.env.PORT) || 3000;
 
 app.use(express.json());
 
@@ -332,6 +334,43 @@ app.post('/api/register', async (req, res) => {
     }
   } else {
     res.json({ success: true, synced: false, warning: 'Saved locally. Google Sheet is not connected.' });
+  }
+});
+
+// 7. Contact Message Email Sync
+app.post('/api/contact', async (req, res) => {
+  const { name, email, subject, message } = req.body;
+
+  if (!name || !email || !message) {
+    return res.status(400).json({ error: 'Missing required fields' });
+  }
+
+  try {
+    const senderEmail = process.env.RESEND_FROM_EMAIL || 'onboarding@resend.dev';
+    const { data, error } = await resend.emails.send({
+      from: `AIC Website <${senderEmail}>`,
+      to: ['jyzdigihub@gmail.com'],
+      replyTo: email,
+      subject: `New Contact Form Submission - ${subject || 'Contact'}`,
+      html: `
+        <h2 style="color: #dc2626;">New Contact Form Submission</h2>
+        <p><strong>Name:</strong> ${name}</p>
+        <p><strong>Email:</strong> ${email}</p>
+        <p><strong>Category:</strong> ${subject || ''}</p>
+        <hr style="border: none; border-top: 1px solid #eee; margin: 20px 0;" />
+        <p><strong>Message:</strong></p>
+        <p style="white-space: pre-wrap;">${message}</p>
+      `,
+    });
+
+    if (error) {
+      return res.status(400).json(error);
+    }
+
+    res.json({ success: true, data });
+  } catch (error) {
+    console.error('Email submission error:', error);
+    res.status(500).json({ error: 'Internal server error' });
   }
 });
 

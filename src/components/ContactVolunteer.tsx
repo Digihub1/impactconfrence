@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Mail, MessageCircle, Send, CheckCircle, ShieldCheck, HelpCircle, PhoneCall } from 'lucide-react';
+import { Mail, MessageCircle, Send, CheckCircle, ShieldCheck, HelpCircle, PhoneCall, Loader2 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ContactMessage } from '../types';
 
@@ -13,6 +13,7 @@ export default function ContactVolunteer() {
 
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const [success, setSuccess] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -38,9 +39,11 @@ export default function ContactVolunteer() {
     return Object.keys(nextErrors).length === 0;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!validateForm()) return;
+    if (!validateForm() || isSubmitting) return;
+
+    setIsSubmitting(true);
 
     // Build contact message object
     const timestamp = Date.now();
@@ -59,31 +62,28 @@ export default function ContactVolunteer() {
     existingList.push(newMsg);
     localStorage.setItem('AIC_MESSAGES', JSON.stringify(existingList));
 
-    // Async sync to backend API for email submission
-    // The actual email sending logic would be handled by the backend at /api/contact
-    // The recipient email address (lukas@proximitypointcity.com) would be configured on the backend.
-    fetch('/api/contact', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        ...newMsg,
-        recipientEmail: 'lukas@proximitypointcity.com' // Indicate recipient for backend
-      })
-    }).then(res => res.json())
-      .then(data => {
-        console.log('Contact message successfully synced to backend for email!', data);
-      })
-      .catch(err => console.error('Failed to sync contact message to backend: ', err));
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newMsg)
+      });
 
-    setSuccess(true);
-    setForm({
-      name: '',
-      email: '',
-      subject: 'General Question',
-      message: '',
-    });
+      if (!response.ok) throw new Error('Submission failed');
+
+      setSuccess(true);
+      setForm({
+        name: '',
+        email: '',
+        subject: 'General Question',
+        message: '',
+      });
+    } catch (err) {
+      setErrors({ form: 'Could not send message. Please try again later.' });
+      console.error(err);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -92,6 +92,26 @@ export default function ContactVolunteer() {
 
       <div className="max-w-4xl mx-auto px-4">
         
+        {/* Logo Marquee Block (Collaborating Organizations) */}
+        <div className="mb-10">
+          <h3 className="text-center text-sm font-bold text-slate-500 uppercase tracking-widest mb-5">
+            Collaborating Organizations
+          </h3>
+
+          <div className="relative overflow-hidden">
+            <div className="scroll-viewport">
+              <div className="animate-scroll flex flex-nowrap items-center gap-12 opacity-60 grayscale hover:grayscale-0 transition-all duration-300 w-max">
+                {/* Original Set */}
+                <div className="h-12 w-32 bg-slate-300 rounded flex-shrink-0 flex items-center justify-center text-slate-700 font-black text-[10px]">LOGO 1</div>
+                <div className="h-12 w-32 bg-slate-300 rounded flex-shrink-0 flex items-center justify-center text-slate-700 font-black text-[10px]">LOGO 2</div>
+                {/* Duplicated Set for seamless -50% loop */}
+                <div className="h-12 w-32 bg-slate-300 rounded flex-shrink-0 flex items-center justify-center text-slate-700 font-black text-[10px]">LOGO 1</div>
+                <div className="h-12 w-32 bg-slate-300 rounded flex-shrink-0 flex items-center justify-center text-slate-700 font-black text-[10px]">LOGO 2</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
         {/* Title Block */}
         <div className="text-center space-y-2 mb-12">
           <span className="text-xs font-bold text-red-650 uppercase tracking-widest font-mono">
@@ -105,6 +125,7 @@ export default function ContactVolunteer() {
             Connecting our international delegates. Ask about registration options, logistics, hotels, or visa letters.
           </p>
         </div>
+
 
         <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
           
@@ -268,11 +289,16 @@ export default function ContactVolunteer() {
 
                   <button
                     type="submit"
-                    className="w-full py-4 bg-red-600 hover:bg-red-700 text-white font-bold text-xs uppercase tracking-widest rounded-full transition duration-300 cursor-pointer flex items-center justify-center gap-2 select-none active:scale-97 shadow-[0_4px_12px_rgba(220,38,38,0.15)]"
+                    disabled={isSubmitting}
+                    className="w-full py-4 bg-red-600 hover:bg-red-700 disabled:bg-slate-400 text-white font-bold text-xs uppercase tracking-widest rounded-full transition duration-300 cursor-pointer flex items-center justify-center gap-2 select-none active:scale-97 shadow-[0_4px_12px_rgba(220,38,38,0.15)]"
                   >
-                    <Send className="w-3.5 h-3.5 py-0.5" />
-                    SUBMIT INQUIRY
+                    {isSubmitting ? (
+                      <><Loader2 className="w-4 h-4 animate-spin" /> SENDING...</>
+                    ) : (
+                      <><Send className="w-3.5 h-3.5 py-0.5" /> SUBMIT INQUIRY</>
+                    )}
                   </button>
+                  {errors.form && <p className="text-[10px] font-bold text-red-500 text-center">{errors.form}</p>}
                 </form>
               )}
             </AnimatePresence>

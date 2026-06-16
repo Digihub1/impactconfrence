@@ -6,7 +6,7 @@
 import React, { useState } from 'react';
 
 import { motion, AnimatePresence } from 'framer-motion';
-import { Calendar, MapPin, Sparkles, Menu, X, Plane } from 'lucide-react';
+import { Calendar, MapPin, Sparkles, Menu, X, Globe } from 'lucide-react';
 
 import Countdown from './components/Countdown';
 import VisaSupport from './components/VisaSupport';
@@ -14,11 +14,11 @@ import ScheduleSection from './components/ScheduleSection';
 import ContactVolunteer from './components/ContactVolunteer';
 import ErrorBoundary from './components/ErrorBoundary';
 
-import { SPEAKER_PROFILES, HOTELS } from './data';
+import { LEADERSHIP_TEAM, CONFERENCE_HOSTS, SECRETARIAT_TEAM, INTERCESSION_TEAM, HOTELS } from './data';
 // Importing generated images
 import heroBg from './assets/images/conference_hero_bg_1781243521756.jpg';
-import logoImg from '../assets/images/DCI.png';
-import bishopPortrait from '../assets/images/bishop_portrait 1.jpg';
+import logoImg from './assets/images/DCI.png';
+import bishopPortrait from './assets/images/Portrait 1.jpg';
 
 export default function App() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -30,11 +30,14 @@ export default function App() {
 
   const navLinks = [
     { href: '#home', label: 'Home' },
-    { href: '#speakers', label: 'Speakers' },
+    { href: '#leadership', label: 'Leadership' },
+    { href: '#secretariat', label: 'Secretariat' },
     { href: '#schedule', label: 'Schedule' },
+    { href: '#awards', label: 'Awards' },
     { href: '#visa', label: 'Visa Support' },
-    { href: '#travel', label: 'Travel & Venue' },
-    { href: '#contact', label: 'Contact Us' }
+    { href: '#accommodation', label: 'Accommodation' },
+    { href: '#sponsorship', label: 'Sponsorship' },
+    { href: '#contact', label: 'Contact' }
   ];
 
   return (
@@ -157,45 +160,32 @@ export default function App() {
             
             {/* HERO LEFT: TEXTS & CTAs */}
             <div className="lg:col-span-7 space-y-6 text-center lg:text-left">
-              
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-red-650/10 border border-red-550/20 text-red-600 font-extrabold text-[10px] uppercase tracking-[0.2em] font-mono">
-                <Sparkles className="w-3.5 h-3.5 inline mr-1 animate-spin" />
-                Apostolic Event Dallas • Sept 24–27, 2026
-              </div>
-
               <h1 className="font-serif text-4xl sm:text-6xl font-black text-slate-900 uppercase tracking-tight leading-none">
-                Apostolic Impact <br className="hidden sm:inline" />
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-red-600 animate-pulse">
-                  Conference
-                </span>
+                Apostolic Impact <br className="hidden sm:inline" /> Conference 2026
               </h1>
 
-              <div className="space-y-1">
-                <p className="text-amber-600 font-serif text-sm sm:text-lg font-black tracking-wider uppercase leading-snug">
-                  "2026 YEAR OF DOUBLE HARVEST"
-                </p>
-                <p className="text-slate-500 font-mono text-xs italic">
-                  — Zechariah 9:12
-                </p>
-              </div>
-
-              <p className="text-slate-600 text-xs sm:text-sm leading-relaxed max-w-xl mx-auto lg:mx-0 font-medium">
-                Join Bishop Dr. Mark Kariuki and leaders from across the Diaspora for Apostolic Impact 2026 — a life-changing conference of worship, teaching, and community impact. Save the date: Sept 24–27, Neema Gospel Church, Dallas, TX.
+              <p className="text-red-600 font-serif text-xl sm:text-2xl font-black tracking-wider uppercase">
+                "2026 YEAR OF DOUBLE HARVEST" Zechariah 9:12
               </p>
 
-              {/* Badges strip */}
-              <div className="flex flex-wrap items-center justify-center lg:justify-start gap-4 text-xs font-semibold text-slate-600">
-                <div className="flex items-center gap-2 bg-white border border-slate-200/80 p-2 px-3.5 rounded-xl shadow-sm">
-                  <Calendar className="w-4 h-4 text-red-600" />
-                  <span>Sept 24–27, 2026</span>
+              <p className="text-slate-600 text-xs sm:text-sm leading-relaxed max-w-xl mx-auto lg:mx-0 font-medium">
+                Bishop Dr. Mark Kariuki, Presiding Bishop of Deliverance Church International, together with the Apostolic Team, invite church leaders, ministers, professionals, and believers from around the world to a life-changing gathering of prayer, worship, apostolic teaching, workshops, networking, and recognition awards.
+              </p>
+
+              <div className="space-y-2">
+                <div className="flex items-center justify-center lg:justify-start gap-2 font-bold text-slate-800">
+                  <Calendar className="w-5 h-5 text-red-600" />
+                  <span>September 24–27, 2026</span>
                 </div>
-                <div className="flex items-center gap-2 bg-white border border-slate-200/80 p-2 px-3.5 rounded-xl shadow-sm">
-                  <MapPin className="w-4 h-4 text-blue-600" />
-                  <span>Neema Gospel Church, Dallas TX</span>
+                <div className="flex items-center justify-center lg:justify-start gap-2 font-bold text-slate-800">
+                  <MapPin className="w-5 h-5 text-blue-600" />
+                  <span>Neema Gospel Church, 7815 Arapaho Rd, Dallas, TX 75248, USA</span>
+                </div>
+                <div className="flex items-center justify-center lg:justify-start gap-2 font-black text-amber-600 uppercase text-xs tracking-widest">
+                  <Globe className="w-4 h-4" />
+                  <span>Open to Christians Worldwide</span>
                 </div>
               </div>
-
-              {/* Dynamic CTAs */}
               <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-2">
                 <button
                   onClick={handleRegisterClick}
@@ -204,10 +194,16 @@ export default function App() {
                   Register Now
                 </button>
                 <a
-                  href="#visa"
+                  href="#awards"
                   className="w-full sm:w-auto px-6 py-3.5 bg-white border border-slate-200 hover:border-slate-300 hover:bg-slate-50 text-slate-800 text-[10px] font-black rounded-full transition uppercase tracking-[0.2em] text-center cursor-pointer active:scale-97 shadow-sm"
                 >
-                  Book Visa Support
+                  Nominate for Awards
+                </a>
+                <a
+                  href="#sponsorship"
+                  className="w-full sm:w-auto px-6 py-3.5 bg-white border border-slate-200 hover:border-slate-300 hover:bg-slate-50 text-slate-800 text-[10px] font-black rounded-full transition uppercase tracking-[0.2em] text-center cursor-pointer active:scale-97 shadow-sm"
+                >
+                  Become a Sponsor
                 </a>
               </div>
 
@@ -233,10 +229,10 @@ export default function App() {
                     Main Plenary Speaker
                   </span>
                   <h3 className="font-serif text-lg font-black text-slate-50 uppercase tracking-tight mt-1.5">
-                    Bishop Dr. Mark Kariuki
+                    Apostolic Leadership Team
                   </h3>
                   <p className="text-[10px] text-slate-400 tracking-wide font-medium">
-                    Presiding Bishop, Deliverance Church International
+                    Advancing God's Kingdom Globally
                   </p>
                 </div>
               </div>
@@ -251,192 +247,111 @@ export default function App() {
         <Countdown onJoinStream={() => alert("Welcome to the video plenary pool! Joining our active session stream on Church YouTube.")} />
         
         {/* Quick Info Strip */}
-        <div className="max-w-4xl mx-auto px-4 grid grid-cols-1 sm:grid-cols-3 gap-4 mt-6">
-          
-          {/* Card 1: Theme banner */}
-          <div className="p-5 bg-white rounded-2xl border border-slate-200 shadow-md">
-            <span className="text-[9px] font-black uppercase text-red-650 block font-mono tracking-widest">Conference Pillar</span>
-            <h4 className="text-xs font-black text-slate-900 uppercase mt-1">2026 Double Harvest</h4>
-            <p className="text-[11px] text-slate-600 mt-1.5 leading-relaxed font-semibold">
-              We declare a season of miraculous acceleration, restored impacts, and global alignment under Zechariah 9:12.
-            </p>
-          </div>
-
-          {/* Card 2: Contacts Chair */}
-          <div className="p-5 bg-white rounded-2xl border border-slate-200 shadow-md flex flex-col justify-between">
-            <div>
-              <span className="text-[9px] font-black uppercase text-red-650 block font-mono tracking-widest">Secretariat Chairman</span>
-              <h4 className="text-xs font-black text-slate-900 uppercase mt-1">Prof Lukas Njenga</h4>
-            </div>
-            <div className="flex gap-2 mt-3 pt-3 border-t border-slate-100">
-              <a
-                href="https://wa.me/447985505797"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex-1 py-1.5 bg-slate-55 hover:bg-emerald-50 border border-slate-200 text-slate-750 hover:text-emerald-700 rounded-lg text-[9px] font-black tracking-widest text-center uppercase transition"
-              >
-                WhatsApp
-              </a>
-              <a
-                href="mailto:Lukas@heartforthecity.co.uk"
-                className="flex-1 py-1.5 bg-slate-55 hover:bg-red-50 border border-slate-200 text-slate-750 hover:text-red-700 rounded-lg text-[9px] font-black tracking-widest text-center uppercase transition"
-              >
-                Email ID
-              </a>
-            </div>
-          </div>
-
-          {/* Card 3: Important timelines */}
-          <div className="p-5 bg-white rounded-2xl border border-slate-200 shadow-md">
-            <span className="text-[9px] font-black uppercase text-red-650 block font-mono tracking-widest">Planning Benchmarks</span>
-            <ul className="text-[10px] text-slate-600 space-y-1.5 mt-2 font-semibold">
-              <li className="flex items-center gap-2">
-                <span className="w-1 h-1 rounded-full bg-red-650" />
-                <span>Registrations Opened: 15 June 2026</span>
-              </li>
-              <li className="flex items-center gap-2">
-                <span className="w-1 h-1 rounded-full bg-red-650" />
-                <span>Consular booking queues: Active</span>
-              </li>
-            </ul>
-          </div>
-
+        <div className="max-w-4xl mx-auto px-4 mt-6 text-center">
+          <p className="text-sm font-black text-slate-500 uppercase tracking-widest italic">
+            "The gathering of leaders, visionaries and kingdom builders is drawing near."
+          </p>
         </div>
       </div>
 
-      {/* CORE SPEAKERS BIOGRAPHIES SECTION */}
-      <section id="speakers" className="scroll-mt-16 py-16 bg-transparent border-t border-slate-200">
-        <div className="max-w-4xl mx-auto px-4">
-          
-          <div className="text-center space-y-2 mb-12">
-            <span className="text-xs font-bold text-red-600 uppercase tracking-widest font-mono">
-              Conference Keynotes
-            </span>
-            <h2 className="font-sans text-3xl md:text-5xl font-black text-slate-900 uppercase tracking-tight">
-              Anointed Leadership
-            </h2>
-            <div className="w-16 h-1.5 bg-gradient-to-r from-blue-600 to-red-600 mx-auto rounded-full" />
+      {/* THEME & PROPHETIC DECLARATION */}
+      <section className="py-24 bg-slate-900 text-white relative overflow-hidden">
+        <div className="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')]" />
+        <div className="max-w-4xl mx-auto px-4 text-center relative z-10 space-y-8">
+          <div className="inline-block p-4 px-8 border-2 border-white/20 rounded-2xl backdrop-blur-md">
+            <p className="text-2xl font-serif italic">"Zechariah 9:12"</p>
           </div>
+          <p className="text-xl md:text-3xl font-light tracking-wide text-slate-300 max-w-2xl mx-auto leading-relaxed">
+            "We declare a season of miraculous acceleration, restored impact, divine alignment, and global recognition."
+          </p>
+        </div>
+      </section>
 
-          <div className="space-y-6">
-            {SPEAKER_PROFILES.map((spk, idx) => (
-              <div
-                key={idx}
-                className="p-6 sm:p-8 bg-white border border-slate-200/80 rounded-3xl flex flex-col md:flex-row gap-6 items-start hover:shadow-xl transition-all duration-300 shadow-md"
-              >
-                {/* Visual Circle Emblem */}
-                <div className="w-16 h-16 rounded-2xl bg-slate-100 border border-slate-200 flex items-center justify-center text-slate-800 text-lg font-black shrink-0 font-serif select-none">
-                  {spk.name.startsWith("Bishop") ? "B" : "PL"}
+      {/* LEADERSHIP SECTION */}
+      <section id="leadership" className="scroll-mt-16 py-16 bg-white border-t border-slate-200">
+        <div className="max-w-6xl mx-auto px-4">
+          <div className="text-center space-y-2 mb-12">
+            <h2 className="text-3xl md:text-5xl font-black text-slate-900 uppercase">APOSTOLIC BISHOPS</h2>
+            <p className="text-slate-500 font-bold uppercase tracking-widest">Serving together to advance God's Kingdom globally.</p>
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
+            {LEADERSHIP_TEAM.map((member, idx) => (
+              <div key={idx} className="group relative aspect-[3/4] rounded-2xl overflow-hidden bg-slate-100 border border-slate-200 shadow-sm transition-all hover:shadow-xl hover:-translate-y-1">
+                {member.imageUrl ? (
+                  <img
+                    src={member.imageUrl}
+                    alt={member.name}
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                  />
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center text-slate-300 text-4xl font-black">AIC</div>
+                )}
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-end p-4 text-center">
+                  <h4 className="text-white text-xs font-black uppercase">{member.name}</h4>
+                  <span className="text-red-400 text-[8px] uppercase tracking-widest font-bold">{member.role}</span>
                 </div>
-
-                <div className="space-y-2 flex-1">
-                  <div>
-                    <span className="text-[10px] text-red-650 font-extrabold uppercase tracking-widest font-mono block">
-                      {spk.location}
-                    </span>
-                    <h3 className="text-lg font-extrabold text-slate-900 uppercase tracking-tight">
-                      {spk.name}
-                    </h3>
-                    <span className="text-xs text-slate-500 font-bold">
-                      {spk.role}
-                    </span>
-                  </div>
-                  <p className="text-slate-650 text-xs leading-relaxed font-semibold">
-                    {spk.description}
-                  </p>
+                <div className="absolute bottom-0 inset-x-0 p-3 bg-white/95 backdrop-blur-sm border-t border-slate-100 group-hover:hidden">
+                  <h4 className="text-slate-900 text-[10px] font-black uppercase truncate">{member.name}</h4>
+                  <span className="text-slate-500 text-[8px] uppercase font-bold">{member.role}</span>
                 </div>
               </div>
             ))}
           </div>
-
         </div>
       </section>
 
-      {/* SCHEDULE TIMETABLE CARD COMPONENT */}
-      <ScheduleSection />
-
-      {/* VISA PREPARATION BLOCK */}
-      <VisaSupport />
-
-      {/* VENUE MAPS & TRAVEL AND HOTELS SECTION */}
-      <section id="travel" className="scroll-mt-16 py-16 bg-transparent border-t border-slate-200">
-        <div className="max-w-4xl mx-auto px-4">
-          
-          {/* Title Block */}
-          <div className="text-center space-y-2 mb-12">
-            <span className="text-xs font-bold text-red-650 uppercase tracking-widest font-mono">
-              Venue Logistics & Accommodations
-            </span>
-            <h2 className="font-sans text-3xl md:text-5xl font-black text-slate-900 uppercase tracking-tight">
-              Travel & Lodging
-            </h2>
-            <div className="w-16 h-1.5 bg-gradient-to-r from-blue-600 to-red-600 mx-auto rounded-full" />
-            <p className="text-slate-600 max-w-xl mx-auto text-sm mt-3 font-semibold">
-              We look forward to welcoming you to Carrollton, Texas. Connect with airport guides and review hotel allocations below.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch mb-10">
+      {/* HOSTS & INTERCESSION COMBINED SECTION */}
+      <section className="py-20 bg-slate-50 border-y border-slate-200">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
             
-            {/* Map Frame Card representation */}
-            <div className="bg-white border border-slate-200/80 rounded-3xl p-6 flex flex-col justify-between shadow-md">
-              <div className="space-y-4">
-                <span className="text-[10px] text-amber-600 font-extrabold uppercase tracking-widest block font-mono">
-                  Sovereign Host Sanctuary
-                </span>
-                <h3 className="font-serif text-lg font-black text-slate-900 uppercase leading-tight">
-                  Neema Gospel Church
-                </h3>
-                <p className="text-slate-650 text-xs font-mono font-bold">
-                  3015 N Josey Ln, Carrollton, TX 75007 (Dallas Metro)
-                </p>
-
-                <p className="text-slate-500 text-xs leading-relaxed font-semibold">
-                  Neema Gospel Church is an expansive, high-tech sanctuary which can handle international delegations with secure parking. It is a warm, godly house of praise, easily accessible from central Dallas freeways.
-                </p>
+            {/* Left Col: Conference Hosts */}
+            <div className="lg:col-span-5 space-y-8">
+              <div className="text-center lg:text-left">
+                <h2 className="text-3xl font-black text-slate-900 uppercase">Conference Hosts</h2>
+                <div className="w-12 h-1 bg-red-600 mt-2 mx-auto lg:mx-0 rounded-full" />
               </div>
-
-              {/* Graphic Mock map or real locator */}
-              <div className="h-44 rounded-2xl border border-slate-200 bg-slate-50 flex items-center justify-center text-center p-4 mt-6 relative overflow-hidden">
-                <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#dc2626_1.5px,transparent_1.5px)] [background-size:16px_16px]" />
-                <div className="relative z-10 space-y-1.5 text-center">
-                  <MapPin className="w-7 h-7 text-red-600 mx-auto animate-bounce" />
-                  <span className="text-[10px] font-black text-slate-800 block uppercase tracking-wider mb-1">Interactive Metropark Map</span>
-                  <a
-                    href="https://maps.google.com/?q=Neema+Gospel+Church+Josey+Ln+Carrollton+TX"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="p-2 px-4 bg-red-600 hover:bg-red-700 text-white rounded-full text-[9px] font-black uppercase tracking-widest transition inline-block cursor-pointer select-none shadow"
-                  >
-                    Launch Google Maps
-                  </a>
-                </div>
+              <div className="grid grid-cols-1 gap-6">
+                {CONFERENCE_HOSTS.map((host, idx) => (
+                  <div key={idx} className="bg-white p-8 rounded-2xl border border-slate-200 shadow-2xl flex flex-col items-center text-center transform transition hover:scale-[1.02] max-w-[400px] mx-auto my-8">
+                    <div className="mb-6 w-full max-w-[240px] flex items-center justify-center overflow-hidden rounded-2xl shadow-lg border border-slate-100">
+                      <img 
+                        src={host.imageUrl || bishopPortrait} 
+                        alt={host.name} 
+                        className="w-full h-auto object-cover transition-transform duration-500 hover:scale-105"
+                        loading="lazy"
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <h3 className="text-2xl font-black text-slate-900 uppercase leading-tight px-2">{host.name}</h3>
+                      <p className="text-red-600 font-bold text-sm uppercase tracking-[0.2em]">{host.role}</p>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
-                  {/* Airport Guide card list */}
-            <div className="bg-white border border-slate-200/80 rounded-3xl p-6 flex flex-col justify-between shadow-md">
-              <div className="space-y-4">
-                <span className="text-[10px] text-[#ef4444] font-extrabold uppercase tracking-widest block font-mono">
-                  Flight & Shuttles Coordination
-                </span>
-                <h3 className="text-lg font-extrabold text-slate-900 uppercase">
-                  Airport Transfers
-                </h3>
-                <p className="text-slate-600 text-xs leading-relaxed font-semibold">
-                  Delegates flying in from East Africa, Western Europe, or other states are recommended to book their tickets to either of Dallas' major airports:
-                </p>
-              </div>
 
-              <div className="space-y-4 mt-6">
-                {[
-                  { name: "Dallas/Fort Worth International (DFW)", dist: "Approx 15-20 miles to Neema Gospel Church. Major global hub for British Airways, Qatar, and KLM." },
-                  { name: "Dallas Love Field (DAL)", dist: "Approx 16 miles to venue. Convenient domestic flight terminal for connecting state transfers (Southwest Airlines)." }
-                ].map((apt, idx) => (
-                  <div key={idx} className="flex gap-3 start items-start">
-                    <Plane className="w-4 h-4 text-red-600 shrink-0 mt-1" />
-                    <div>
-                      <span className="text-xs font-extrabold text-slate-900 block leading-tight">{apt.name}</span>
-                      <p className="text-[10.5px] text-slate-500 mt-1 leading-normal font-semibold">{apt.dist}</p>
+            {/* Right Col: Intercession & Support Team */}
+            <div className="lg:col-span-7 space-y-8">
+              <div className="text-center lg:text-left">
+                <h2 className="text-2xl font-black text-slate-900 uppercase">Intercession & Support Team</h2>
+                <div className="w-12 h-1 bg-blue-600 mt-2 mx-auto lg:mx-0 rounded-full" />
+              </div>
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                {INTERCESSION_TEAM.map((member, idx) => (
+                  <div key={idx} className={`group relative aspect-[3/4] rounded-2xl overflow-hidden border shadow-md transition-all hover:shadow-lg hover:-translate-y-1 ${member.role.includes('Lead') ? 'bg-red-50 border-red-200' : 'bg-white border-slate-200'}`}>
+                    {member.imageUrl ? (
+                      <img src={member.imageUrl} alt={member.name} className="w-full h-full object-cover" loading="lazy" />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center text-slate-200 text-4xl font-black bg-slate-50">AIC</div>
+                    )}
+                    <div className="absolute inset-x-0 bottom-0 p-3 bg-white/95 backdrop-blur-sm border-t border-slate-100 text-center">
+                      <h4 className={`text-[10px] font-black uppercase truncate ${member.role.includes('Lead') ? 'text-red-700' : 'text-slate-900'}`}>
+                        {member.name}
+                      </h4>
+                      <p className="text-[8px] font-bold uppercase tracking-widest opacity-70 text-slate-500">
+                        {member.role}
+                      </p>
                     </div>
                   </div>
                 ))}
@@ -444,41 +359,140 @@ export default function App() {
             </div>
 
           </div>
+        </div>
+      </section>
 
-          {/* Hotel list card grid */}
-          <div className="space-y-4">
-            <span className="text-[10px] font-black uppercase tracking-widest text-[#ef4444] font-mono block">
-              Partner Lodging (AIC Special Room allocations)
-            </span>
+      {/* SECRETARIAT SECTION */}
+      <section id="secretariat" className="py-16 bg-white">
+        <div className="max-w-6xl mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-black text-slate-900 uppercase">Apostolic Impact Conference Secretariat</h2>
+          </div>
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
+            {SECRETARIAT_TEAM.map((member, idx) => {
+              const isLukas = member.name.toLowerCase().includes('lukas njenga');
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 font-medium">
-              {HOTELS.map((hotel) => (
-                <div key={hotel.name} className="p-5 bg-white border border-slate-200/80 rounded-2xl flex flex-col justify-between shadow-sm hover:shadow-md transition">
-                  <div>
-                    <h4 className="text-xs font-black text-amber-700 uppercase leading-snug">{hotel.name}</h4>
-                    <p className="text-[10px] text-slate-400 mt-1 font-mono font-bold">{hotel.address}</p>
-                    <ul className="text-[10.5px] text-slate-600 space-y-1 mt-3 font-semibold">
-                      <li>📍 {hotel.distance}</li>
-                      <li className="font-bold text-emerald-600">💵 {hotel.rate}</li>
-                      <li>📞 {hotel.phone}</li>
-                    </ul>
+              return (
+                <div
+                  key={idx}
+                  className={`flex flex-col items-center text-center gap-3 ${isLukas ? 'md:scale-110' : ''}`}
+                >
+                  <div
+                    className={`${isLukas ? 'w-32 h-32 rounded-2xl' : 'w-24 h-24 rounded-full'} overflow-hidden border-2 border-slate-200 shadow-inner bg-slate-100 transition-all duration-300`}
+                  >
+                    {member.imageUrl ? (
+                      <img
+                        src={member.imageUrl}
+                        alt={member.name}
+                        className="w-full h-full object-cover"
+                        loading="lazy"
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center text-slate-400 font-black">
+                        AIC
+                      </div>
+                    )}
                   </div>
 
-                  {hotel.bookingLink && (
-                    <a
-                      href={hotel.bookingLink}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="mt-4 w-full py-2 bg-slate-50 hover:bg-red-50 hover:text-red-700 border border-slate-200 text-slate-700 text-[9px] font-black tracking-widest uppercase transition text-center cursor-pointer block select-none rounded-lg"
-                    >
-                      Check Availability
-                    </a>
-                  )}
+
+                  <div>
+                    <h4 className={`${isLukas ? 'text-sm' : 'text-xs'} font-black text-slate-900 uppercase leading-tight`}>
+                      {member.name}
+                    </h4>
+                    <p className={`${isLukas ? 'text-[10px]' : 'text-[9px]'} text-slate-500 font-bold uppercase tracking-wider`}>
+                      {member.role}
+                    </p>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      <ScheduleSection />
+
+      {/* AWARDS SECTION */}
+      <section id="awards" className="py-24 bg-gradient-to-br from-amber-500 to-amber-700 text-white scroll-mt-16">
+        <div className="max-w-4xl mx-auto px-4 text-center space-y-8">
+          <h2 className="text-4xl md:text-5xl font-black uppercase">Apostolic Awards on Recognition of Prior Learning</h2>
+          <p className="text-xl font-medium max-w-2xl mx-auto">Celebrate diaspora leaders, ministers, entrepreneurs, and community builders who have demonstrated exceptional kingdom impact.</p>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-left">
+             <div className="p-6 bg-white/10 backdrop-blur-md rounded-2xl border border-white/20">
+               <h4 className="font-black uppercase mb-2">Award Categories</h4>
+               <ul className="text-xs space-y-1 font-bold list-disc list-inside">
+                 <li>Marketplace Ministry Impact</li>
+                 <li>Community Development Leadership</li>
+                 <li>Apostolic Pioneer Award</li>
+                 <li>Kingdom Entrepreneurship</li>
+               </ul>
+             </div>
+             <div className="p-6 bg-white/10 backdrop-blur-md rounded-2xl border border-white/20 flex flex-col justify-center items-center text-center">
+               <button className="px-8 py-3 bg-white text-amber-700 font-black uppercase text-xs rounded-full shadow-lg hover:bg-slate-100 transition">Nominate a Leader</button>
+             </div>
+          </div>
+        </div>
+      </section>
+
+      <VisaSupport />
+
+      {/* ACCOMMODATION SECTION */}
+      <section id="accommodation" className="scroll-mt-16 py-16 bg-white border-t border-slate-200">
+        <div className="max-w-4xl mx-auto px-4">
+          <div className="text-center mb-12"><h2 className="text-3xl font-black uppercase">Accommodation</h2></div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+             {HOTELS.map((hotel, idx) => (
+               <div key={idx} className="bg-white border border-slate-200 rounded-3xl p-8 flex flex-col justify-between shadow-md">
+                 <div className="space-y-4">
+                   <h3 className="text-xl font-black uppercase">{hotel.name}</h3>
+                   <p className="text-red-600 font-bold uppercase text-xs tracking-widest">{hotel.address}</p>
+                   <ul className="text-sm font-bold text-slate-600 space-y-2">
+                     <li>📍 {hotel.distance}</li>
+                     <li className="text-emerald-600">{hotel.rate}</li>
+                   </ul>
+                 </div>
+                 <a href={hotel.bookingLink} target="_blank" className="mt-8 block w-full py-3 bg-slate-900 text-white text-center rounded-xl font-black uppercase text-xs tracking-widest">Book Now</a>
+               </div>
+             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* SPONSORSHIP & DONATIONS */}
+      <section id="sponsorship" className="py-24 bg-slate-50 scroll-mt-16">
+        <div className="max-w-6xl mx-auto px-4 grid grid-cols-1 lg:grid-cols-2 gap-16">
+          <div className="space-y-8">
+            <h2 className="text-3xl font-black uppercase">Sponsorship Packages</h2>
+            <div className="space-y-4">
+              {[
+                { tier: 'Platinum', amt: '$20,000', color: 'border-amber-500', text: 'text-amber-600', desc: 'Maximum visibility. Includes prime logo placement, 5-minute plenary presentation, and full-page program ad.' },
+                { tier: 'Gold', amt: '$15,000', color: 'border-slate-300', text: 'text-slate-500', desc: 'Premium recognition. High-visibility logo placement, award presentation opportunity, and half-page program ad.' },
+                { tier: 'Silver', amt: '$10,000', color: 'border-amber-700', text: 'text-amber-800', desc: 'Strategic partnership. Featured logo placement, workshop sponsorship, and quarter-page program ad.' },
+                { tier: 'Bronze', amt: '$5,000', color: 'border-orange-300', text: 'text-orange-500', desc: 'Support partner. Logo in program and on event banners, plus mentions during breakout sessions.' },
+                { tier: 'Supporter', amt: '$1,000', color: 'border-slate-200', text: 'text-slate-400', desc: 'Friend of the conference. Recognition in the official program and digital delegate materials.' }
+              ].map(item => (
+                <div key={item.tier} className={`p-5 bg-white border-l-4 ${item.color} rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 group`}>
+                  <div className="flex justify-between items-center mb-2">
+                    <h4 className={`text-[10px] font-black uppercase tracking-[0.2em] ${item.text}`}>{item.tier} Partner</h4>
+                    <span className="text-xs font-mono font-black text-slate-900 group-hover:text-red-600 transition-colors">{item.amt}</span>
+                  </div>
+                  <p className="text-[10px] text-slate-500 font-bold leading-relaxed uppercase tracking-wider mb-4">{item.desc}</p>
+                  <button className="w-full py-2.5 bg-slate-100 group-hover:bg-slate-900 text-slate-900 group-hover:text-white text-[9px] font-black uppercase tracking-[0.2em] rounded-xl transition-all duration-300 cursor-pointer border border-slate-200 group-hover:border-slate-900">
+                    Select {item.tier} Package
+                  </button>
                 </div>
               ))}
             </div>
           </div>
-
+          <div className="space-y-8">
+            <h2 className="text-3xl font-black uppercase">Donations</h2>
+            <div className="grid grid-cols-4 gap-4">
+              {['10', '25', '50', '100', '500', '1,000', '5,000', '10,000'].map(amt => (
+                <button key={amt} className="p-3 bg-white border border-slate-200 rounded-xl font-black text-xs hover:bg-red-50 hover:border-red-200 hover:text-red-600 transition shadow-sm">${amt}</button>
+              ))}
+            </div>
+            <button className="w-full py-4 bg-red-600 text-white rounded-2xl font-black uppercase text-xs tracking-[0.2em] shadow-lg">Submit Donation</button>
+          </div>
         </div>
       </section>
 

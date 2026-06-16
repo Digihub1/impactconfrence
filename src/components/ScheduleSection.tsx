@@ -35,43 +35,27 @@ export default function ScheduleSection() {
           </p>
         </div>
 
-        {/* Tab Selectors */}
-        <div className="flex flex-wrap items-center justify-center gap-2 mb-8 p-1.5 bg-slate-100 rounded-full border border-slate-200 max-w-2xl mx-auto">
+        <div className="flex flex-wrap items-center justify-center gap-2 mb-12">
           {CONFERENCE_SCHEDULE.map((day, idx) => (
-            <button
-              key={day.date}
-              onClick={() => setActiveTab(idx)}
-              className={`flex-1 min-w-[120px] px-4 py-2.5 rounded-full text-[10px] font-black uppercase tracking-[0.15em] select-none cursor-pointer transition duration-300 ${
-                activeTab === idx
-                  ? 'bg-white text-slate-900 border border-slate-200/80 shadow-md'
-                  : 'text-slate-600 hover:text-slate-900 bg-transparent hover:bg-slate-200/50'
-              }`}
-            >
-              <Calendar className="w-3.5 h-3.5 inline mr-1.5 shrink-0" />
-              {(() => {
-                const parts = day.dayLabel.split(', ');
-                return parts.length > 1 ? parts[1] : day.dayLabel;
-              })()}
+            <button key={idx} onClick={() => setActiveTab(idx)} className={`px-6 py-2 rounded-full text-[10px] font-black uppercase tracking-widest transition ${activeTab === idx ? 'bg-red-600 text-white' : 'bg-slate-100 text-slate-500 hover:bg-slate-200'}`}>
+              {day.dayLabel}
             </button>
           ))}
         </div>
 
-        {/* Schedule Cards Section */}
-        <div className="space-y-4 font-medium">
-          {/* Day Theme Statement */}
-          <div className="p-4 bg-white border border-slate-200 rounded-2xl flex items-center justify-between gap-4 shadow-md">
-            <div>
-              <span className="text-[9px] font-black uppercase tracking-[0.2em] text-red-600 font-mono block">
-                Today's Core Guidance
-              </span>
-              <span className="text-xs sm:text-sm font-extrabold text-slate-900 uppercase leading-snug">
-                {currentDay.theme}
-              </span>
+        <div className="space-y-8 relative before:absolute before:inset-y-0 before:left-0 sm:before:left-1/2 before:w-px before:bg-slate-200">
+          {currentDay.events.map((event, idx) => (
+            <div key={idx} className={`relative flex flex-col sm:flex-row items-center gap-8 ${idx % 2 === 0 ? 'sm:flex-row-reverse' : ''}`}>
+              <div className="hidden sm:block absolute left-1/2 -translate-x-1/2 w-4 h-4 rounded-full bg-red-600 border-4 border-white shadow-sm z-10" />
+              <div className="w-full sm:w-1/2 space-y-2 text-center sm:text-left">
+                <span className="text-[10px] font-black text-red-600 uppercase tracking-widest">{event.time}</span>
+                <h3 className="text-lg font-black text-slate-900 uppercase">{event.title}</h3>
+                <p className="text-xs text-slate-500 font-bold">{event.description}</p>
+              </div>
+              <div className="hidden sm:block sm:w-1/2" />
             </div>
-            <span className="text-xs font-mono font-bold text-slate-500 hidden sm:inline tracking-wider">
-              {currentDay.dayLabel}
-            </span>
-          </div>
+          ))}
+        </div>
 
           {/* Timecards listing */}
           <AnimatePresence mode="wait">
@@ -136,7 +120,6 @@ export default function ScheduleSection() {
           </AnimatePresence>
         </div>
 
-      </div>
     </section>
   );
 }
