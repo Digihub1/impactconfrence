@@ -83,18 +83,27 @@ export const CONFERENCE_HOSTS: TeamMember[] = [
 ];
 
 import secretariatLukas from './assets/images/Bishop Prof Lukas Njenga Head of Secretariat & Marketplace Apostle.png';
-import secretariatDorcas from './assets/images/Dorcas Karanja.png';
+import secretariatDorcas from './assets/images/Place holder.png';
 import secretariatKevin from './assets/images/Kelvin Kiragu.png';
 import secretariatMichael from './assets/images/Michael Njenga.png';
 import secretariatRuth from './assets/images/Ruth Chege.png';
 
+// Newly inserted Secretariat team members
+import secretariatGad from './assets/images/Place holder.png';
+import secretariatEstherRailey from './assets/images/Place holder.png';
+import secretariatJeremiah from './assets/images/Place holder.png';
+
 export const SECRETARIAT_TEAM: TeamMember[] = [
   { name: "Prof Lukas Njenga", role: "Head of Secretariat / Marketplace Apostle", imageUrl: secretariatLukas },
+  { name: "Pst. Gad", role: "Secretariat Team", imageUrl: secretariatGad },
+  { name: "Rev. Esther Railey", role: "Secretariat Team", imageUrl: secretariatEstherRailey },
   { name: "Dorcas Karanja", role: "Secretariat Team", imageUrl: secretariatDorcas },
   { name: "Kelvin Kiragu", role: "Secretariat Team", imageUrl: secretariatKevin },
   { name: "Michael Njenga", role: "Secretariat Team", imageUrl: secretariatMichael },
-  { name: "Ruth Chege", role: "Secretariat Team", imageUrl: secretariatRuth }
+  { name: "Ruth Chege", role: "Secretariat Team", imageUrl: secretariatRuth },
+  { name: "Jeremiah Ngure", role: "Secretariat Team", imageUrl: secretariatJeremiah }
 ];
+
 
 
 export const INTERCESSION_TEAM: TeamMember[] = [
@@ -171,7 +180,7 @@ export const HOTELS: HotelInfo[] = [
     name: "Hilton Garden Inn Dallas/Allen",
     address: "Bishops Recommended",
     distance: "5.2 miles from Venue",
-    rate: "$119 / night (Special Rate)",
+    rate: "Special Rate Negotiated",
     phone: "+1 (214) 547-1700",
     bookingLink: "https://www.hilton.com"
   },
@@ -179,7 +188,7 @@ export const HOTELS: HotelInfo[] = [
     name: "Holiday Inn Express Dallas",
     address: "Delegates Recommended",
     distance: "4.5 miles from Venue",
-    rate: "$109 / night",
+    rate: "Special Rate Negotiated",
     phone: "+1 (972) 241-8500",
     bookingLink: "https://www.ihg.com"
   }

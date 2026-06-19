@@ -370,7 +370,9 @@ export default function App() {
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
             {SECRETARIAT_TEAM.map((member, idx) => {
-              const isLukas = member.name.toLowerCase().includes('lukas njenga');
+              const normalizedName = member.name.toLowerCase();
+              const isLukas = normalizedName.includes('lukas njenga');
+
 
               return (
                 <div
@@ -380,6 +382,7 @@ export default function App() {
                   <div
                     className={`${isLukas ? 'w-32 h-32 rounded-2xl' : 'w-24 h-24 rounded-full'} overflow-hidden border-2 border-slate-200 shadow-inner bg-slate-100 transition-all duration-300`}
                   >
+
                     {member.imageUrl ? (
                       <img
                         src={member.imageUrl}
