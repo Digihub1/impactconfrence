@@ -349,7 +349,7 @@ app.post('/api/contact', async (req, res) => {
     const senderEmail = process.env.RESEND_FROM_EMAIL || 'onboarding@resend.dev';
     const { data, error } = await resend.emails.send({
       from: `AIC Website <${senderEmail}>`,
-      to: ['jyzdigihub@gmail.com'],
+      to: ['lukas@heartforthecity.co.uk'],
       replyTo: email,
       subject: `New Contact Form Submission - ${subject || 'Contact'}`,
       html: `

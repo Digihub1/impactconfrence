@@ -1,7 +1,7 @@
 import React from 'react';
 import { Calendar, CheckCircle2 } from 'lucide-react';
 
-import featuredImg from '../assets/images/2026 Organizing Committee.png';
+import featuredImg from '../assets/images/2026 Organizing Committee.jpeg';
 
 export default function VisaSupport() {
   return (
