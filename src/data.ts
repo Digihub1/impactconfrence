@@ -4,7 +4,7 @@
  */
 
 import bishopMarkKariuki from './assets/images/Bishop DR. Mark Kariuki.jpg';
-import bishopJBMasinde from './assets/images/Bishop JB Masinde.png';
+import bishopJBMasinde from './assets/images/Bishop Dr. JB Masinde.png';
 import bishopGeorgeGichana from './assets/images/Bishop George Gichana.png';
 
 import bishopPaulOselu from './assets/images/Bishop Paul Oselu.png';
@@ -76,31 +76,32 @@ export const LEADERSHIP_TEAM: TeamMember[] = [
 
 export const CONFERENCE_HOSTS: TeamMember[] = [
   { 
-    name: "Presiding Bishop Jackson & Reverend Lucy Kingori", 
+    name: "Presiding Bishop Dr. Jackson & Dr. Reverend Lucy Kingori", 
     role: "Host Pastors, Neema Gospel Church",
     imageUrl: hostJacksonLucy
   }
 ];
 
 import secretariatLukas from './assets/images/Bishop Prof Lukas Njenga Head of Secretariat & Marketplace Apostle.png';
-import secretariatDorcas from './assets/images/Place holder.png';
+import secretariatDorcas from './assets/images/Dorcas Karanja.png';
 import secretariatKevin from './assets/images/Kelvin Kiragu.png';
 import secretariatMichael from './assets/images/Michael Njenga.png';
 import secretariatRuth from './assets/images/Ruth Chege.png';
 
 // Newly inserted Secretariat team members
-import secretariatGad from './assets/images/Place holder.png';
+import secretariatGad from './assets/images/Gad Studio.png';
 import secretariatEstherRailey from './assets/images/Place holder.png';
-import secretariatJeremiah from './assets/images/Place holder.png';
+import secretariatJeremiah from './assets/images/Jeremiah Ngure.png';
 
 export const SECRETARIAT_TEAM: TeamMember[] = [
   { name: "Prof Lukas Njenga", role: "Head of Secretariat / Marketplace Apostle", imageUrl: secretariatLukas },
   { name: "Pst. Gad", role: "Secretariat Team", imageUrl: secretariatGad },
   { name: "Rev. Esther Railey", role: "Secretariat Team", imageUrl: secretariatEstherRailey },
-  { name: "Dorcas Karanja", role: "Secretariat Team", imageUrl: secretariatDorcas },
-  { name: "Kelvin Kiragu", role: "Secretariat Team", imageUrl: secretariatKevin },
-  { name: "Michael Njenga", role: "Secretariat Team", imageUrl: secretariatMichael },
-  { name: "Ruth Chege", role: "Secretariat Team", imageUrl: secretariatRuth },
+  { name: "Dorcas Karanja", role: "Events Director", imageUrl: secretariatDorcas },
+  { name: "Kelvin Kiragu", role: "Commercial and Legal Director", imageUrl: secretariatKevin },
+  { name: "Michael Njenga", role: "Chief Operations Director", imageUrl: secretariatMichael },
+  { name: "Ruth Chege", role: "Efficiency and Productivity Director", imageUrl: secretariatRuth },
+
   { name: "Jeremiah Ngure", role: "Secretariat Team", imageUrl: secretariatJeremiah }
 ];
 

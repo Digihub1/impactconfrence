@@ -1,8 +1,10 @@
-# TODO - Infinite Logo Marquee (Collaborating Organizations)
+## Todo - Awards Section Layout UI Optimization
 
-- [ ] Insert new “Collaborating Organizations” infinite logo marquee section immediately before the “Contact Committees” heading in `src/components/ContactVolunteer.tsx`.
-- [ ] Add marquee CSS (keyframes + mask fade) to `src/index.css` using the required seamless -50% translate strategy.
-- [ ] Ensure logo items use `flex-shrink-0` to prevent distortion.
-- [ ] Add placeholder logo blocks (or wire in real logo images if available later).
-- [ ] Verify TypeScript/React build and run `npm run build`.
+- [ ] Inspect current Awards section implementation in `src/App.tsx` (already located).
+- [ ] Add a banner image to the Awards header (320px tall, `object-cover`).
+- [ ] Center the Awards header content using flex-column + `items-center` and `text-center`.
+- [ ] Increase vertical padding for the Awards section to ~120px using Tailwind (`py-[120px]` or equivalent).
+- [x] Run typecheck/build (if available) to ensure no TS/asset import errors.
+- [x] Fix TSX structure issues introduced during the header refactor (duplicate block/JSX closing tags).
+
 

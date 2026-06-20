@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 
 import { motion, AnimatePresence } from 'framer-motion';
 import { Calendar, MapPin, Sparkles, Menu, X, Globe } from 'lucide-react';
@@ -19,11 +19,53 @@ import { LEADERSHIP_TEAM, CONFERENCE_HOSTS, SECRETARIAT_TEAM, INTERCESSION_TEAM,
 import heroBg from './assets/images/conference_hero_bg_1781243521756.jpg';
 import logoImg from './assets/images/DCI.png';
 import bishopPortrait from './assets/images/Portrait 1.jpg';
+import awardsBannerImg from './assets/images/Awards.png';
 
 export default function App() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
+  // Awards nomination view (state-driven, router-less)
+  const [nominateView, setNominateView] = useState(false);
+  const [nominationSuccess, setNominationSuccess] = useState<string | null>(null);
+
+  const setNominateViewWithTransition = (next: boolean) => {
+    const doSwap = () => {
+      setNominationSuccess(null);
+      setNominateView(next);
+    };
+
+    // View Transition API (where supported)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const anyDoc = document as any;
+    if (typeof anyDoc?.startViewTransition === 'function') {
+      anyDoc.startViewTransition(() => doSwap());
+    } else {
+      doSwap();
+    }
+  };
+
+
   const googleFormUrl = 'https://forms.gle/2UqrCMvMxpFwNtcV7';
+  const nominationRecipient = 'jyzdigihub@gmail.com';
+
+  const handleNominationSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const fd = new FormData(e.currentTarget);
+    const nomineeName = String(fd.get('nomineeName') || '').trim();
+    const category = String(fd.get('category') || '').trim();
+    const reason = String(fd.get('reason') || '').trim();
+
+    if (!nomineeName || !category || !reason) return;
+
+    const subject = encodeURIComponent(`Nomination: ${nomineeName} for ${category}`);
+    const body = encodeURIComponent(
+      `Nominee Name: ${nomineeName}\nCategory: ${category}\n\nReason for Nomination:\n${reason}`
+    );
+
+    window.location.href = `mailto:${nominationRecipient}?subject=${subject}&body=${body}`;
+    setNominationSuccess(nomineeName);
+  };
+
   const handleRegisterClick = () => {
     window.open(googleFormUrl, '_blank');
   };
@@ -400,11 +442,18 @@ export default function App() {
 
                   <div>
                     <h4 className={`${isLukas ? 'text-sm' : 'text-xs'} font-black text-slate-900 uppercase leading-tight`}>
-                      {member.name}
+                      {isLukas ? 'BISHOP Prof. Lukas Njenga' : member.name}
                     </h4>
                     <p className={`${isLukas ? 'text-[10px]' : 'text-[9px]'} text-slate-500 font-bold uppercase tracking-wider`}>
                       {member.role}
                     </p>
+
+                    {/* Secretariat Team label for specific director members */}
+                    {(['Dorcas Karanja', 'Kelvin Kiragu', 'Michael Njenga', 'Ruth Chege'].includes(member.name)) && (
+                      <p className="text-[9px] text-slate-500 font-bold uppercase tracking-wider mt-0.5">
+                        SECRETARIAT TEAM
+                      </p>
+                    )}
                   </div>
                 </div>
               );
@@ -415,27 +464,189 @@ export default function App() {
 
       <ScheduleSection />
 
-      {/* AWARDS SECTION */}
-      <section id="awards" className="py-24 bg-gradient-to-br from-amber-500 to-amber-700 text-white scroll-mt-16">
-        <div className="max-w-4xl mx-auto px-4 text-center space-y-8">
-          <h2 className="text-4xl md:text-5xl font-black uppercase">Apostolic Awards on Recognition of Prior Learning</h2>
-          <p className="text-xl font-medium max-w-2xl mx-auto">Celebrate diaspora leaders, ministers, entrepreneurs, and community builders who have demonstrated exceptional kingdom impact.</p>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-left">
-             <div className="p-6 bg-white/10 backdrop-blur-md rounded-2xl border border-white/20">
-               <h4 className="font-black uppercase mb-2">Award Categories</h4>
-               <ul className="text-xs space-y-1 font-bold list-disc list-inside">
-                 <li>Marketplace Ministry Impact</li>
-                 <li>Community Development Leadership</li>
-                 <li>Apostolic Pioneer Award</li>
-                 <li>Kingdom Entrepreneurship</li>
-               </ul>
-             </div>
-             <div className="p-6 bg-white/10 backdrop-blur-md rounded-2xl border border-white/20 flex flex-col justify-center items-center text-center">
-               <button className="px-8 py-3 bg-white text-amber-700 font-black uppercase text-xs rounded-full shadow-lg hover:bg-slate-100 transition">Nominate a Leader</button>
-             </div>
+      {/* Awards nomination route (router-less) */}
+      {nominateView ? (
+        <section className="scroll-mt-16 py-16 bg-gradient-to-br from-amber-50 via-white to-blue-50">
+          <div className="max-w-4xl mx-auto px-4">
+            <div className="flex flex-col items-center justify-center text-center gap-4 mb-8">
+              <div>
+                <h1 className="text-3xl md:text-4xl font-black text-slate-900 uppercase tracking-tight">Apostolic Impact International Awards 2026</h1>
+                <p className="mt-4 text-slate-600 font-medium max-w-2xl mx-auto">
+                  The Apostolic Impact International Awards 2026 honor leaders whose calling, service, and lived experience have produced measurable kingdom impact across ministry, marketplace, entrepreneurship, education, and community development.
+                </p>
+                <p className="mt-4 text-slate-600 font-medium max-w-2xl mx-auto">
+                  Through recognition of prior learning, the awards celebrate faithful builders whose work has shaped people, strengthened communities, and advanced apostolic transformation in the diaspora and beyond.
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={() => {
+                  // Back to awards view
+                  setNominateViewWithTransition(false);
+                  if (window.location.pathname.endsWith('/nominate')) {
+                    window.history.pushState({}, '', '/');
+                  }
+                }}
+                className="px-5 py-2.5 bg-white border border-slate-200 hover:bg-slate-50 text-slate-800 text-[10px] font-black uppercase tracking-[0.2em] rounded-full transition shadow-sm"
+              >
+                Back to Awards
+              </button>
+            </div>
+
+            <div className="grid md:grid-cols-2 gap-6 mb-8">
+              <div className="bg-white border border-amber-100 rounded-2xl p-6">
+                <h2 className="text-2xl font-semibold text-amber-700">Award Categories</h2>
+                <ul className="mt-3 text-sm font-bold text-amber-800 list-disc pl-5 space-y-2">
+                  <li>Marketplace Ministry Impact Award</li>
+                  <li>Community Development Leadership</li>
+                  <li>Apostolic Pioneer Award</li>
+                  <li>Kingdom Entrepreneurship</li>
+                </ul>
+              </div>
+
+              <div className="bg-white border border-blue-100 rounded-2xl p-6">
+                <h2 className="text-2xl font-semibold text-blue-700">Judging Criteria</h2>
+                <ul className="mt-3 text-sm font-bold text-blue-800 list-disc pl-5 space-y-2">
+                  <li>Demonstrated leadership & discipleship impact</li>
+                  <li>Contribution to community development and service</li>
+                  <li>Faithfulness, integrity, and kingdom advancement</li>
+                  <li>Evidence of measurable outcomes and testimonies</li>
+                </ul>
+              </div>
+            </div>
+
+            <form
+              onSubmit={handleNominationSubmit}
+              className="bg-white shadow rounded-xl border border-slate-200 p-7 space-y-6 max-w-[600px] mx-auto"
+            >
+              <h2 className="text-2xl font-bold text-slate-900 text-center">Nomination Form</h2>
+
+              {nominationSuccess ? (
+                <div className="p-5 bg-emerald-50 border border-emerald-200 rounded-xl">
+                  <p className="text-emerald-800 font-bold">Nomination email draft opened.</p>
+                  <p className="text-emerald-700 mt-1 text-sm">Please review and send the email from your mail app. Nominee: {nominationSuccess}</p>
+                  <div className="mt-4 flex flex-col sm:flex-row gap-3">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setNominateViewWithTransition(false);
+                        window.history.pushState({}, '', '/');
+                      }}
+                      className="px-5 py-2.5 bg-red-600 hover:bg-red-700 text-white text-[10px] font-black uppercase tracking-[0.2em] rounded-full transition shadow"
+                    >
+                      Submit Another
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setNominationSuccess(null);
+                        setNominateViewWithTransition(false);
+                        window.history.pushState({}, '', '/');
+                      }}
+                      className="px-5 py-2.5 bg-white border border-slate-200 hover:bg-slate-50 text-slate-800 text-[10px] font-black uppercase tracking-[0.2em] rounded-full transition"
+                    >
+                      Back to Awards
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <>
+                  <div className="grid md:grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <label className="block text-sm font-bold text-slate-700 text-center">Nominee Name</label>
+                      <input
+                        type="text"
+                        name="nomineeName"
+                        required
+                        placeholder="Nominee Name"
+                        className="w-full border border-slate-200 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-amber-200"
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="block text-sm font-bold text-slate-700 text-center">Award Category</label>
+                      <select
+                        name="category"
+                        required
+                        className="w-full border border-slate-200 rounded-lg p-3 bg-white focus:outline-none focus:ring-2 focus:ring-blue-200"
+                        defaultValue=""
+                      >
+                        <option value="" disabled>
+                          Select Category
+                        </option>
+                        <option>Marketplace Ministry Impact Award</option>
+                        <option>Community Development Leadership</option>
+                        <option>Apostolic Pioneer Award</option>
+                        <option>Kingdom Entrepreneurship</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <label className="block text-sm font-bold text-slate-700 text-center">Reason for Nomination</label>
+                    <textarea
+                      name="reason"
+                      rows={6}
+                      required
+                      placeholder="Briefly describe the nominee's contributions, impact, and kingdom work..."
+                      className="w-full border border-slate-200 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-slate-200"
+                    />
+                  </div>
+
+                  <button
+                    type="submit"
+                    className="w-full bg-blue-600 hover:bg-blue-700 text-white py-4 rounded-lg font-semibold uppercase tracking-[0.15em] text-xs shadow"
+                  >
+                    Submit Nomination
+                  </button>
+                </>
+              )}
+            </form>
           </div>
-        </div>
-      </section>
+        </section>
+      ) : (
+        <section id="awards" className="py-[120px] bg-gradient-to-br from-amber-500 to-amber-700 text-white scroll-mt-16">
+          <div className="max-w-4xl mx-auto px-4 text-center space-y-8 flex flex-col items-center">
+            <img
+              src={awardsBannerImg}
+              alt="Apostolic Impact International Awards banner"
+              className="w-full h-[320px] object-cover rounded-2xl mb-6 shadow-[0_10px_30px_rgba(0,0,0,0.15)]"
+              loading="lazy"
+              referrerPolicy="no-referrer"
+            />
+
+            <div className="flex flex-col items-center text-center">
+              <h2 className="text-4xl md:text-5xl font-black uppercase">Apostolic Awards on Recognition of Prior Learning</h2>
+              <p className="text-xl font-medium max-w-2xl mx-auto">Celebrate diaspora leaders, ministers, entrepreneurs, and community builders who have demonstrated exceptional kingdom impact.</p>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-left mt-8">
+                <div className="p-6 bg-white/10 backdrop-blur-md rounded-2xl border border-white/20">
+                  <h4 className="font-black uppercase mb-2">Award Categories</h4>
+                  <ul className="text-xs space-y-1 font-bold list-disc list-inside">
+                    <li>Marketplace Ministry Impact</li>
+                    <li>Community Development Leadership</li>
+                    <li>Apostolic Pioneer Award</li>
+                    <li>Kingdom Entrepreneurship</li>
+                  </ul>
+                </div>
+
+                <div className="p-6 bg-white/10 backdrop-blur-md rounded-2xl border border-white/20 flex flex-col justify-center items-center text-center">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      window.history.pushState({}, '', '/nominate');
+                      setNominateViewWithTransition(true);
+                    }}
+                    className="px-8 py-3 bg-white text-amber-700 font-black uppercase text-xs rounded-full shadow-lg hover:bg-slate-100 transition"
+                  >
+                    Nominate a Leader
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
+
 
       <VisaSupport />
 

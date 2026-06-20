@@ -1,33 +1,9 @@
-import React, { useState } from 'react';
-import { Calendar, ChevronDown, ChevronUp, Clock, Info, CheckCircle2, ShieldAlert, Video } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React from 'react';
+import { Calendar, CheckCircle2 } from 'lucide-react';
 
-const FAQS = [
-  {
-    question: "What exactly is covered in this 1-on-1 coaching session?",
-    answer: "During your 30-minute private video call, our visa advisor reviews your personal situation, provides professional guidance regarding the DS-160 visa form application, suggests which supporting credentials to carry (financial records, ministry invitations), and shares mock interview practice questions. We analyze factors that show strong community ties to help build a realistic case."
-  },
-  {
-    question: "Does booking a coaching session guarantee a US Visa?",
-    answer: "No. Only consular officers at the United States Embassy / Consulate make the final determination based on federal immigration laws. This service prepares your interview readiness and documentation checklists to help avoid avoidable clerical errors, and does not serve as a guarantee of visa issuance."
-  },
-  {
-    question: "Do I get an official Church Invitation Letter for my appointment?",
-    answer: "Yes! If you select the 'US Visa Invitation Letter' request during your conference registration, Neema Gospel Church and Deliverance Church International can produce a signed invitational badge after verifying your details. This letter can be carried as support for your consular officer interview."
-  },
-  {
-    question: "What should I bring to the coaching call?",
-    answer: "Please have your current passport details, any rough drafts of your DS-160 application (if started), details about previous international travel, and any specific questions regarding scheduling appointments at your local US embassy."
-  }
-];
+import featuredImg from '../assets/images/2026 Organizing Committee.png';
 
 export default function VisaSupport() {
-  const [openFaqIdx, setOpenFaqIdx] = useState<number | null>(null);
-
-  const toggleFaq = (idx: number) => {
-    setOpenFaqIdx(prev => (prev === idx ? null : idx));
-  };
-
   return (
     <section id="visa" className="scroll-mt-16 py-16 bg-transparent border-y border-slate-200 relative overflow-hidden">
       {/* Decorative blurred lights */}
@@ -59,7 +35,7 @@ export default function VisaSupport() {
                <p className="text-xs text-slate-500 font-bold">Connect with expert consultant <strong>Juden Freeman</strong> for custom interview preparation and application guidance.</p>
                <div className="space-y-2 pt-4">
                  <button className="w-full py-3 bg-red-600 text-white rounded-xl font-black uppercase text-[10px] tracking-widest">Request Invitation Letter</button>
-                 <a href="https://link.visas101.com" target="_blank" className="block w-full py-3 border border-slate-200 text-slate-800 text-center rounded-xl font-black uppercase text-[10px] tracking-widest">Visit Visa101</a>
+                 <a href="https://visas101.com/" target="_blank" className="block w-full py-3 border border-slate-200 text-slate-800 text-center rounded-xl font-black uppercase text-[10px] tracking-widest">Visit Visa101</a>
                </div>
              </div>
              <div className="mt-8 pt-8 border-t border-slate-100">
@@ -124,41 +100,21 @@ export default function VisaSupport() {
           </div>
         </div>
 
-        {/* FAQs Accordion Block */}
-        <div className="mt-12 space-y-3">
-          <h3 className="font-sans text-lg font-black text-slate-900 uppercase tracking-tight mb-4 flex items-center gap-2">
-            <Info className="w-4 h-4 text-red-600" /> Helpful Visa FAQs
-          </h3>
-
-          <div className="divide-y divide-slate-200 border-y border-slate-200">
-            {FAQS.map((faq, idx) => {
-              const isOpen = openFaqIdx === idx;
-              return (
-                <div key={idx} className="py-2.5">
-                  <button
-                    onClick={() => toggleFaq(idx)}
-                    className="w-full flex items-center justify-between py-2.5 text-left text-xs font-extrabold text-slate-900 hover:text-red-650 uppercase tracking-wide transition cursor-pointer select-none"
-                  >
-                    <span>{faq.question}</span>
-                    {isOpen ? <ChevronUp className="w-4 h-4 text-slate-400" /> : <ChevronDown className="w-4 h-4 text-red-600" />}
-                  </button>
-                  <AnimatePresence>
-                    {isOpen && (
-                      <motion.div
-                        initial={{ opacity: 0, height: 0 }}
-                        animate={{ opacity: 1, height: 'auto' }}
-                        exit={{ opacity: 0, height: 0 }}
-                        className="overflow-hidden"
-                      >
-                        <p className="pb-3 text-[11px] text-slate-600 leading-relaxed font-semibold">
-                          {faq.answer}
-                        </p>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </div>
-              );
-            })}
+        {/* Featured Image Replacement (Organizing Committee) */}
+        <div className="mt-12 flex flex-col items-center">
+          <div className="w-full max-w-4xl rounded-2xl overflow-hidden shadow-xl border border-slate-200 bg-white">
+            <img
+              src={featuredImg}
+              alt="2026 organizing committee"
+              className="w-full h-auto object-cover"
+              loading="lazy"
+            />
+            <div className="p-6 text-center">
+              <h3 className="text-xl font-black text-slate-900 uppercase mb-2">2026 Organizing Committee</h3>
+              <p className="text-slate-600 font-medium">
+                Dedicated leaders working together to ensure a transformative experience for every delegate.
+              </p>
+            </div>
           </div>
         </div>
       </div>
