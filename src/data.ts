@@ -13,8 +13,8 @@ import bishopJimmyKimani from './assets/images/Bishop Jimmy Kimani.png';
 
 import bishopDominicMacharia from './assets/images/Bishop Dominic Macharia.png';
 import pastorGeorgeSandy from './assets/images/George Mburu.png';
-
 import placeholderPortrait from './assets/images/Place holder.png';
+
 import hostJacksonLucy from './assets/images/Presiding Bishop Jackson & Reverend Lucy Kingori.png';
 
 export interface ScheduleEvent {
@@ -107,8 +107,8 @@ export const SECRETARIAT_TEAM: TeamMember[] = [
 
 
 export const INTERCESSION_TEAM: TeamMember[] = [
-  { name: "Rev. Wambui Njoroge", role: "Intercession Lead", imageUrl: placeholderPortrait },
   { name: "Bishop Dominic Macharia", role: "Additional Bishop Support", imageUrl: bishopDominicMacharia },
+  { name: "Rev. Wambui Njoroge", role: "Intercession Lead", imageUrl: placeholderPortrait },
   { name: "Pastor Stephen Mungai", role: "Additional Bishop Support", imageUrl: placeholderPortrait },
   { name: "Pastor William Bitok", role: "Additional Bishop Support", imageUrl: placeholderPortrait },
   { name: "Pastor George Mburu", role: "Local Pastoral Support", imageUrl: pastorGeorgeSandy }
