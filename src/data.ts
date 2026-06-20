@@ -13,7 +13,12 @@ import bishopJimmyKimani from './assets/images/Bishop Jimmy Kimani.png';
 
 import bishopDominicMacharia from './assets/images/Bishop Dominic Macharia.png';
 import pastorGeorgeSandy from './assets/images/George Mburu.png';
-import placeholderPortrait from './assets/images/Place holder.png';
+
+import pastorWilliamBittock from './assets/images/Pastor William Bittock.png';
+import pastorSteveMungai from './assets/images/Pastor Steve Mungai.png';
+import robertMwangi from './assets/images/Robert Mwangi.jpeg';
+
+
 
 import hostJacksonLucy from './assets/images/Presiding Bishop Jackson & Reverend Lucy Kingori.png';
 
@@ -108,11 +113,14 @@ export const SECRETARIAT_TEAM: TeamMember[] = [
 
 export const INTERCESSION_TEAM: TeamMember[] = [
   { name: "Bishop Dominic Macharia", role: "Additional Bishop Support", imageUrl: bishopDominicMacharia },
-  { name: "Rev. Wambui Njoroge", role: "Intercession Lead", imageUrl: placeholderPortrait },
-  { name: "Pastor Stephen Mungai", role: "Additional Bishop Support", imageUrl: placeholderPortrait },
-  { name: "Pastor William Bitok", role: "Additional Bishop Support", imageUrl: placeholderPortrait },
-  { name: "Pastor George Mburu", role: "Local Pastoral Support", imageUrl: pastorGeorgeSandy }
+  { name: "Pastor William Bittock", role: "LOCAL PASTORAL SUPPORT", imageUrl: pastorWilliamBittock },
+  { name: "Pastor Stephen Mungai", role: "LOCAL PASTORAL SUPPORT", imageUrl: pastorSteveMungai },
+
+  { name: "Pastor Robert Mwangi", role: "LOCAL PASTORAL SUPPORT", imageUrl: robertMwangi },
+  { name: "Pastor George Mburu", role: "LOCAL PASTORAL SUPPORT", imageUrl: pastorGeorgeSandy }
 ];
+
+
 
 
 export const CONFERENCE_SCHEDULE: DaySchedule[] = [

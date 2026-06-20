@@ -388,7 +388,7 @@ export default function App() {
                       <div className="w-full h-full flex items-center justify-center text-slate-200 text-4xl font-black bg-slate-50">AIC</div>
                     )}
                     <div className="absolute inset-x-0 bottom-0 p-3 bg-white/95 backdrop-blur-sm border-t border-slate-100 text-center">
-                      <h4 className={`text-[10px] font-black uppercase truncate ${member.role.includes('Lead') ? 'text-red-700' : 'text-slate-900'}`}>
+<h4 className={`text-[10px] font-black uppercase truncate ${member.role.includes('Lead') ? 'text-inherit' : 'text-slate-900'}`}>
                         {member.name}
                       </h4>
                       <p className="text-[8px] font-bold uppercase tracking-widest opacity-70 text-slate-500">
