@@ -376,7 +376,7 @@ export default function App() {
             {/* Right Col: Intercession & Support Team */}
             <div className="lg:col-span-7 space-y-8">
               <div className="text-center lg:text-left">
-                <h2 className="text-2xl font-black text-slate-900 uppercase">Intercession & Support Team</h2>
+                <h2 className="text-2xl font-black text-slate-900 uppercase">DIASPORA SUPPORT TEAM</h2>
                 <div className="w-12 h-1 bg-blue-600 mt-2 mx-auto lg:mx-0 rounded-full" />
               </div>
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
