@@ -94,7 +94,7 @@ import secretariatRuth from './assets/images/Ruth Chege.png';
 
 // Newly inserted Secretariat team members
 import secretariatGad from './assets/images/Gad Studio.png';
-import secretariatEstherRailey from './assets/images/Place holder.png';
+import secretariatEstherRailey from './assets/images/Heart for the City.png';
 import secretariatJeremiah from './assets/images/Jeremiah Ngure.png';
 
 export const SECRETARIAT_TEAM: TeamMember[] = [

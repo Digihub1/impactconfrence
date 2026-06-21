@@ -3,6 +3,19 @@ import { Mail, MessageCircle, Send, CheckCircle, ShieldCheck, HelpCircle, PhoneC
 import { motion, AnimatePresence } from 'framer-motion';
 import { ContactMessage } from '../types';
 
+// Collaborating organizations logos
+import dciLogo from '../assets/images/DCI.png';
+import heartForTheCityLogo from '../assets/images/Heart for the City.png';
+import rwkInvestmentsLogo from '../assets/images/RWK investments.png';
+import petracomLogo from '../assets/images/Petracom.png';
+import deedLogo from '../assets/images/DEED.png';
+import globalDiasporaVillageLogo from '../assets/images/Global-Diaspora-Village.jpg';
+import cresentHeightsLogo from '../assets/images/Cresent Heights.png';
+
+
+
+
+
 export default function ContactVolunteer() {
   const [form, setForm] = useState({
     name: '',
@@ -101,15 +114,40 @@ export default function ContactVolunteer() {
           <div className="relative overflow-hidden">
             <div className="scroll-viewport">
               <div className="animate-scroll flex flex-nowrap items-center gap-12 opacity-60 grayscale hover:grayscale-0 transition-all duration-300 w-max">
-                {/* Original Set */}
-                <div className="h-12 w-32 bg-slate-300 rounded flex-shrink-0 flex items-center justify-center text-slate-700 font-black text-[10px]">LOGO 1</div>
-                <div className="h-12 w-32 bg-slate-300 rounded flex-shrink-0 flex items-center justify-center text-slate-700 font-black text-[10px]">LOGO 2</div>
-                {/* Duplicated Set for seamless -50% loop */}
-                <div className="h-12 w-32 bg-slate-300 rounded flex-shrink-0 flex items-center justify-center text-slate-700 font-black text-[10px]">LOGO 1</div>
-                <div className="h-12 w-32 bg-slate-300 rounded flex-shrink-0 flex items-center justify-center text-slate-700 font-black text-[10px]">LOGO 2</div>
+                {[
+                  { src: dciLogo, alt: 'Deliverance Church International' },
+                  { src: heartForTheCityLogo, alt: 'Heart for the City' },
+                  { src: rwkInvestmentsLogo, alt: 'RWK investments' },
+                  { src: petracomLogo, alt: 'Petracom' },
+                  { src: deedLogo, alt: 'DEED' },
+                  { src: globalDiasporaVillageLogo, alt: 'Global-Diaspora-Village' },
+                  { src: cresentHeightsLogo, alt: 'Cresent Heights' },
+                  // Duplicate the unique set once for seamless -50% loop
+                  { src: dciLogo, alt: 'Deliverance Church International' },
+                  { src: heartForTheCityLogo, alt: 'Heart for the City' },
+                  { src: rwkInvestmentsLogo, alt: 'RWK investments' },
+                  { src: petracomLogo, alt: 'Petracom' },
+                  { src: deedLogo, alt: 'DEED' },
+                  { src: globalDiasporaVillageLogo, alt: 'Global-Diaspora-Village' },
+                  { src: cresentHeightsLogo, alt: 'Cresent Heights' },
+                ].map((logo, idx) => (
+                  <div
+                    key={`${logo.alt}-${idx}`}
+                    className="h-12 w-32 rounded flex-shrink-0 flex items-center justify-center transition-all duration-300"
+                  >
+                    <img
+                      src={logo.src}
+                      alt={logo.alt}
+                      className="h-full w-full object-contain"
+                      loading="lazy"
+                      referrerPolicy="no-referrer"
+                    />
+                  </div>
+                ))}
               </div>
             </div>
           </div>
+
         </div>
 
         {/* Title Block */}
@@ -153,7 +191,7 @@ export default function ContactVolunteer() {
                 <div>
                   <span className="text-[9px] text-slate-500 uppercase font-black block tracking-wider font-mono">Email Support</span>
                   <a
-                    href="mailto:Lukas@heartforthecity.co.uk"
+                    href="mailto:lukas@heartforthecity.co.uk"
                     className="text-xs font-bold text-slate-800 hover:text-red-650 transition"
                   >
                     lukas@heartforthecity.co.uk
