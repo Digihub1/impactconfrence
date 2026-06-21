@@ -26,7 +26,7 @@ export default async function handler(request: any, response: any) {
 
     const { data, error } = await resend.emails.send({
       from: `AIC Website <${senderEmail}>`,
-      to: ['jyzdigihub@gmail.com'], 
+      to: ['Lukas@heartforthecity.co.uk'], 
 replyTo: email,
       subject: `[Inquiry] ${subject}: ${name}`,
       html: `

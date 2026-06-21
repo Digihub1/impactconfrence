@@ -99,14 +99,14 @@ import secretariatJeremiah from './assets/images/Jeremiah Ngure.png';
 
 export const SECRETARIAT_TEAM: TeamMember[] = [
   { name: "Prof Lukas Njenga", role: "Head of Secretariat / Marketplace Apostle", imageUrl: secretariatLukas },
-  { name: "Pst. Gad", role: "Secretariat Team", imageUrl: secretariatGad },
+  { name: "Pst. Gad", role: "Web and Communications Director Secretariat Team", imageUrl: secretariatGad },
   { name: "Rev. Esther Railey", role: "Secretariat Team", imageUrl: secretariatEstherRailey },
   { name: "Dorcas Karanja", role: "Events Director", imageUrl: secretariatDorcas },
   { name: "Kelvin Kiragu", role: "Commercial and Legal Director", imageUrl: secretariatKevin },
   { name: "Michael Njenga", role: "Chief Operations Director", imageUrl: secretariatMichael },
   { name: "Ruth Chege", role: "Efficiency and Productivity Director", imageUrl: secretariatRuth },
 
-  { name: "Jeremiah Ngure", role: "Secretariat Team", imageUrl: secretariatJeremiah }
+  { name: "Jeremiah Ngure", role: "Publicity and Media Secretariat Team", imageUrl: secretariatJeremiah }
 ];
 
 

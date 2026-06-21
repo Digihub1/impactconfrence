@@ -322,7 +322,7 @@ async function handleApi(req: Request, env: Env): Promise<Response> {
       const senderEmail = env.RESEND_FROM_EMAIL || 'onboarding@resend.dev';
       const { data, error } = await resend.emails.send({
         from: `AIC Website <${senderEmail}>`,
-        to: ['jyzdigihub@gmail.com'],
+        to: ['Lukas@heartforthecity.co.uk'],
         replyTo: email,
         subject: `New Contact Form Submission - ${subject || 'Contact'}`,
         html: `

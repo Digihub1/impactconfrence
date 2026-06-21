@@ -156,7 +156,7 @@ export default function ContactVolunteer() {
                     href="mailto:Lukas@heartforthecity.co.uk"
                     className="text-xs font-bold text-slate-800 hover:text-red-650 transition"
                   >
-                    Lukas@heartforthecity.co.uk
+                    lukas@heartforthecity.co.uk
                   </a>
                 </div>
               </div>
