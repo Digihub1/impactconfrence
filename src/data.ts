@@ -46,12 +46,17 @@ export interface DaySchedule {
 
 export interface HotelInfo {
   name: string;
+  /** Short label shown above the list (e.g. "BISHOPS RECOMMENDED"). */
+  addressLabel: string;
+  /** Full address line displayed inside the <ul>. */
   address: string;
   distance: string;
   rate: string;
   phone: string;
   bookingLink?: string;
 }
+
+
 
 export const SPEAKER_PROFILES = [
   {
@@ -185,21 +190,24 @@ export const CONFERENCE_SCHEDULE: DaySchedule[] = [
 export const HOTELS: HotelInfo[] = [
   {
     name: "Hilton Garden Inn Dallas/Allen",
-    address: "Bishops Recommended",
-    distance: "5.2 miles from Venue",
+    addressLabel: "BISHOPS RECOMMENDED",
+    address: "1981 N Central Expressway, Richardson, TX 75080",
+    distance: "📍 5.2 miles from Venue",
     rate: "Special Rate Negotiated",
     phone: "+1 (214) 547-1700",
     bookingLink: "https://www.hilton.com"
   },
   {
     name: "Holiday Inn Express Dallas",
-    address: "Delegates Recommended",
+    addressLabel: "DELEGATES RECOMMENDED",
+    address: "Richardson by IHG-1655 North Central Expressway, Richardson, TX, US",
     distance: "4.5 miles from Venue",
     rate: "Special Rate Negotiated",
     phone: "+1 (972) 241-8500",
     bookingLink: "https://www.ihg.com"
   }
 ];
+
 
 export const PROMO_CODES: { [key: string]: number } = {
   "DOUBLE2026": 0.20, // 20% off

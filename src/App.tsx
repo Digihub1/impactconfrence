@@ -657,13 +657,19 @@ export default function App() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
              {HOTELS.map((hotel, idx) => (
                <div key={idx} className="bg-white border border-slate-200 rounded-3xl p-8 flex flex-col justify-between shadow-md">
-                 <div className="space-y-4">
+                <div className="space-y-4">
                    <h3 className="text-xl font-black uppercase">{hotel.name}</h3>
-                   <p className="text-red-600 font-bold uppercase text-xs tracking-widest">{hotel.address}</p>
-                   <ul className="text-sm font-bold text-slate-600 space-y-2">
-                     <li>📍 {hotel.distance}</li>
-                     <li className="text-emerald-600">{hotel.rate}</li>
-                   </ul>
+
+                  <p className="text-xs font-bold text-red-600 uppercase tracking-widest mt-1">
+                    {hotel.addressLabel}
+                  </p>
+
+                  <ul className="text-sm font-bold text-slate-600 space-y-2">
+                    <li className="text-slate-600">{hotel.address}</li>
+                    <li>{hotel.name === 'Holiday Inn Express Dallas' ? `📍 4.5 miles from Venue` : ` ${hotel.distance}`}</li>
+                    <li className="text-emerald-600">{hotel.rate}</li>
+                  </ul>
+
                  </div>
                  <a href={hotel.bookingLink} target="_blank" className="mt-8 block w-full py-3 bg-slate-900 text-white text-center rounded-xl font-black uppercase text-xs tracking-widest">Book Now</a>
                </div>
