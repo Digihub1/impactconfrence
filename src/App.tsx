@@ -46,7 +46,7 @@ export default function App() {
 
 
   const googleFormUrl = 'https://forms.gle/2UqrCMvMxpFwNtcV7';
-  const nominationRecipient = 'jyzdigihub@gmail.com';
+  const nominationRecipient = 'lukas@heartforthecity.co.uk';
 
   const handleNominationSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

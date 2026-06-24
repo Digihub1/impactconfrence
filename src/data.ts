@@ -113,7 +113,7 @@ export const SECRETARIAT_TEAM: TeamMember[] = [
 
 export const INTERCESSION_TEAM: TeamMember[] = [
   { name: "Bishop Dr. Dominic Macharia", role: "New Jersey USA", imageUrl: bishopDominicMacharia },
-  { name: "Pastor William Botock", role: "Chair DWF pastors Network and Leader of hosting Pastoral leadership team.", imageUrl: pastorWilliamBittock },
+  { name: "Pastor William Bittock", role: "Chair DFW pastors Network and Leader of hosting Pastoral leadership team.", imageUrl: pastorWilliamBittock },
   { name: "Pastor Stephen Mungai", role: "Deliverance Bishop Arizona USA Head of Logistics, Mobilization and USA coordination", imageUrl: pastorSteveMungai },
 
   { name: "Pastor Robert Mwangi", role: "Resident Pastor Neema Church Dallas Texas", imageUrl: robertMwangi },
